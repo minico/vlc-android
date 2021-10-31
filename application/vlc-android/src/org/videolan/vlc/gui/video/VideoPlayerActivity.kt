@@ -122,6 +122,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     lateinit var displayManager: DisplayManager
     var rootView: View? = null
     var videoUri: Uri? = null
+    var seekBar: SeekBar? = null
     private var askResume = true
 
     var playlistModel: PlaylistModel? = null
@@ -393,7 +394,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
 
         rootView = findViewById(R.id.player_root)
-
 
         overlayDelegate.playlist = findViewById(R.id.video_playlist)
         overlayDelegate.playlistSearchText = findViewById(R.id.playlist_search_text)
@@ -1001,6 +1001,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
                     pause();
                     overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT, false)
+                    seekBar = findViewById(R.id.player_overlay_seekbar)
+                    seekBar?.requestFocus()
                     return true
                 }
             }
@@ -1012,6 +1014,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
                     pause();
                     overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT, false)
+                    seekBar = findViewById(R.id.player_overlay_seekbar)
+                    seekBar?.requestFocus()
                     return true
                 }
             }
