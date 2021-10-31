@@ -282,11 +282,11 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     /**
      * show overlay
      */
-    fun showOverlayTimeout(timeout: Int) {
+    fun showOverlayTimeout(timeout: Int, showControl: Boolean = true) {
         player.service?.let { service ->
             if (player.tipsDelegate.currentTip != null) return
             if (player.isInPictureInPictureMode) return
-            initOverlay()
+            initOverlay(showControl)
             if (!::hudBinding.isInitialized) return
             overlayTimeout = when {
                 Settings.videoHudDelay == -2 -> VideoPlayerActivity.OVERLAY_INFINITE
@@ -307,7 +307,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             if (!player.isShowing) {
                 player.isShowing = true
                 if (!player.isLocked) {
-                    showControls(true)
+                    showControls(showControl)
                 }
                 if (!isBookmarkShown()) dimStatusBar(false)
 
@@ -368,7 +368,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private fun initOverlay() {
+    private fun initOverlay(showControl: Boolean = true) {
         player.service?.let { service ->
             val vscRight = player.findViewById<ViewStubCompat>(R.id.player_hud_right_stub)
             vscRight?.let {
@@ -393,7 +393,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     hudBinding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
                     hudBinding.abRepeatMarkerB.visibility = if (abvalues.stop == -1L) View.GONE else View.VISIBLE
                     service.manageAbRepeatStep(hudBinding.abRepeatReset, hudBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
-                    if (player.settings.getBoolean(VIDEO_TRANSITION_SHOW, true)) showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) VideoPlayerActivity.OVERLAY_INFINITE else VideoPlayerActivity.OVERLAY_TIMEOUT)
+                    if (player.settings.getBoolean(VIDEO_TRANSITION_SHOW, true)) showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) VideoPlayerActivity.OVERLAY_INFINITE else VideoPlayerActivity.OVERLAY_TIMEOUT, showControl)
                 })
                 service.playlistManager.abRepeatOn.observe(player, {
                     abRepeatAddMarker.visibility = if (it) View.VISIBLE else View.GONE
@@ -403,7 +403,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                         hudBinding.playerOverlayLength.nextFocusUpId = R.id.ab_repeat_add_marker
                         hudBinding.playerOverlayTime.nextFocusUpId = R.id.ab_repeat_add_marker
                     }
-                    if (it) showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE)
+                    if (it) showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE, showControl)
 
                     service.manageAbRepeatStep(hudBinding.abRepeatReset, hudBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
                 })
