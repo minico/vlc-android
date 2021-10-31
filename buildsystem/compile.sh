@@ -1,5 +1,7 @@
 #! /bin/sh
 set -e
+export ANDROID_SDK=/home/ivan/Android/Sdk
+export ANDROID_NDK=/home/ivan/Android/Sdk/ndk/21.3.6528147
 
 
 #############
