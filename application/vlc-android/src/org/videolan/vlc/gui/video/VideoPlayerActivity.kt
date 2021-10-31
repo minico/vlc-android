@@ -997,20 +997,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
-                    overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT)
+                    overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT, false)
                 } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
-                    if (event.isAltPressed && event.isCtrlPressed) {
-                        touchDelegate.seekDelta(-300000)
-                    } else if (event.isShiftPressed && event.isCtrlPressed) {
-                        touchDelegate.seekDelta(-30000)
-                    } else if (event.isShiftPressed) {
-                        touchDelegate.seekDelta(-5000)
-                    } else if (event.isCtrlPressed) {
-                        touchDelegate.seekDelta(-60000)
-                    } else if (fov == 0f)
-                        touchDelegate.seekDelta(-10000)
-                    else
-                        service?.updateViewpoint(-5f, 0f, 0f, 0f, false)
+                    pause();
+                    overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT, false)
                     return true
                 }
             }
@@ -1018,20 +1008,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
-                    overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT)
+                    overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT, false)
                 } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
-                    if (event.isAltPressed && event.isCtrlPressed) {
-                        touchDelegate.seekDelta(300000)
-                    } else if (event.isShiftPressed && event.isCtrlPressed) {
-                        touchDelegate.seekDelta(30000)
-                    } else if (event.isShiftPressed) {
-                        touchDelegate.seekDelta(5000)
-                    } else if (event.isCtrlPressed) {
-                        touchDelegate.seekDelta(60000)
-                    } else if (fov == 0f)
-                        touchDelegate.seekDelta(10000)
-                    else
-                        service?.updateViewpoint(5f, 0f, 0f, 0f, false)
+                    pause();
+                    overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT, false)
                     return true
                 }
             }
