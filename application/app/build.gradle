@@ -125,12 +125,12 @@ android {
             }
             enable isReleaseBuild
             reset()
-            include "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
+            include "x86", "armeabi-v7a"
 //            universalApk !isReleaseBuild
         }
     }
 
-    def abiCodes = ['x86': 5, 'x86_64': 8, 'armeabi-v7a': 4, 'arm64-v8a': 7]
+    def abiCodes = ['x86': 5, 'armeabi-v7a': 4]
     // make per-variant version code
     applicationVariants.all { variant ->
         //Custom APK name and versionCode
