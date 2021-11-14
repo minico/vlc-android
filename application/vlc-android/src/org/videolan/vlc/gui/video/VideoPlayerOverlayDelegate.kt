@@ -727,6 +727,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             player.isShowing = false
             dimStatusBar(true)
             playlistSearchText.editText?.setText("")
+            player.play()
         } else if (!fromUser) {
             /*
              * Try to hide the Nav Bar again.
