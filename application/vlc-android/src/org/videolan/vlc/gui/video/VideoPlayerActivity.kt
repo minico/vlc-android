@@ -1316,6 +1316,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
         }
         if (tipsDelegate.currentTip != null) pause()
+        overlayDelegate.initOverlay(false, false)
     }
 
     private fun encounteredError() {
