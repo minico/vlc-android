@@ -282,7 +282,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     /**
      * show overlay
      */
-    fun showOverlayTimeout(timeout: Int, showControl: Boolean = true) {
+    fun showOverlayTimeout(timeout: Int, showControl: Boolean = true, showSeekbar: Boolean = true) {
         player.service?.let { service ->
             if (player.tipsDelegate.currentTip != null) return
             if (player.isInPictureInPictureMode) return
@@ -305,13 +305,24 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 return
             }
             if (!player.isShowing) {
-                player.isShowing = true
+                if (showSeekbar) {
+                    player.isShowing = true
+                }
                 if (!player.isLocked) {
                     showControls(showControl)
                 }
                 if (!isBookmarkShown()) dimStatusBar(false)
 
-                enterAnimate(arrayOf(hudBinding.progressOverlay, hudBackground), 100.dp.toFloat())
+                if(showSeekbar) {
+                    hudBinding.playerOverlayTimeContainer.setVisible()
+                    hudBinding.playerOverlayLengthContainer.setVisible()
+                    hudBinding.playerOverlaySeekbar.setVisible()
+                } else {
+                    hudBinding.playerOverlayTimeContainer.setInvisible()
+                    hudBinding.playerOverlayLengthContainer.setInvisible()
+                    hudBinding.playerOverlaySeekbar.setInvisible()
+                }
+                //enterAnimate(arrayOf(hudBinding.progressOverlay, hudBackground), 100.dp.toFloat())
                 enterAnimate(arrayOf(hudRightBinding.hudRightOverlay, hudRightBackground), -100.dp.toFloat())
 
                 if (!player.displayManager.isPrimary)
@@ -368,7 +379,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private fun initOverlay(showControl: Boolean = true) {
+    public fun initOverlay(showControl: Boolean = true, showSeekbar: Boolean = true) {
         player.service?.let { service ->
             val vscRight = player.findViewById<ViewStubCompat>(R.id.player_hud_right_stub)
             vscRight?.let {
@@ -393,7 +404,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     hudBinding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
                     hudBinding.abRepeatMarkerB.visibility = if (abvalues.stop == -1L) View.GONE else View.VISIBLE
                     service.manageAbRepeatStep(hudBinding.abRepeatReset, hudBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
-                    if (player.settings.getBoolean(VIDEO_TRANSITION_SHOW, true)) showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) VideoPlayerActivity.OVERLAY_INFINITE else VideoPlayerActivity.OVERLAY_TIMEOUT, showControl)
+                    if (player.settings.getBoolean(VIDEO_TRANSITION_SHOW, true))
+                        showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) VideoPlayerActivity.OVERLAY_INFINITE else VideoPlayerActivity.OVERLAY_TIMEOUT, showControl, showSeekbar)
                 })
                 service.playlistManager.abRepeatOn.observe(player, {
                     abRepeatAddMarker.visibility = if (it) View.VISIBLE else View.GONE
@@ -720,7 +732,11 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 overlayBackground.setInvisible()
             }
 
-            exitAnimate(arrayOf(hudBinding.progressOverlay, hudBackground),100.dp.toFloat())
+            hudBinding.playerOverlayTimeContainer.setInvisible()
+            hudBinding.playerOverlayLengthContainer.setInvisible()
+            hudBinding.playerOverlaySeekbar.setInvisible()
+
+            //exitAnimate(arrayOf(hudBinding.progressOverlay, hudBackground),100.dp.toFloat())
             exitAnimate(arrayOf(hudRightBinding.hudRightOverlay, hudRightBackground),-100.dp.toFloat())
 
             showControls(false)
