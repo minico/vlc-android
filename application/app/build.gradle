@@ -86,6 +86,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            ndk.abiFilters "armeabi-v7a"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             kotlinOptions.freeCompilerArgs = ['-Xno-param-assertions']
         }
@@ -95,6 +96,7 @@ android {
             matchingFallbacks = ['release']
         }
         debug {
+            ndk.abiFilters "x86", "armeabi-v7a"
             applicationIdSuffix ".debug"
             jniDebuggable true
         }
@@ -130,7 +132,7 @@ android {
         }
     }
 
-    def abiCodes = ['x86': 5, 'armeabi-v7a': 4]
+    def abiCodes = ['x86': 5, 'x86_64': 8, 'armeabi-v7a': 4, 'arm64-v8a': 7]
     // make per-variant version code
     applicationVariants.all { variant ->
         //Custom APK name and versionCode
