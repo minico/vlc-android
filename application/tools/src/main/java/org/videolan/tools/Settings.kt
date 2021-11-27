@@ -42,7 +42,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     }
 
     val showTvUi : Boolean
-        get() = !overrideTvUI && device.isTv || tvUI
+        get() = !overrideTvUI && device.isTv
 }
 
 const val KEY_CURRENT_SETTINGS_VERSION = "current_settings_version"
@@ -134,7 +134,7 @@ class DeviceInfo(context: Context) {
     val tm = context.getSystemService<TelephonyManager>()!!
     val isPhone = tm.phoneType != TelephonyManager.PHONE_TYPE_NONE
     val hasTsp = pm.hasSystemFeature("android.hardware.touchscreen")
-    val isAndroidTv = pm.hasSystemFeature("android.software.leanback")
+    val isAndroidTv = false
     val watchDevices = isAndroidTv && Build.MODEL.startsWith("Bouygtel")
     val isChromeBook = pm.hasSystemFeature("org.chromium.arc.device_management")
     val isTv = isAndroidTv || !isChromeBook && !hasTsp
