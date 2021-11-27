@@ -128,7 +128,7 @@ object AndroidDevices {
         val ctx = AppContextProvider.appContext
         val pm = ctx.packageManager
         hasTsp = pm == null || pm.hasSystemFeature("android.hardware.touchscreen")
-        isAndroidTv = pm != null && pm.hasSystemFeature("android.software.leanback")
+        isAndroidTv = false
         watchDevices = isAndroidTv && Build.MODEL.startsWith("Bouygtel")
         isChromeBook = pm != null && pm.hasSystemFeature("org.chromium.arc.device_management")
         isTv = isAndroidTv || !isChromeBook && !hasTsp
