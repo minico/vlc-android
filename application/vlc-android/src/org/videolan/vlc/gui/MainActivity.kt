@@ -31,6 +31,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.ActionMode
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import kotlinx.android.synthetic.main.toolbar.*
@@ -38,6 +39,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.ACTIVITY_RESULT_OPEN
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.resources.ACTIVITY_RESULT_SECONDARY
@@ -50,12 +53,10 @@ import org.videolan.vlc.donations.VLCBilling
 import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
-import org.videolan.vlc.gui.browser.BaseBrowserFragment
-import org.videolan.vlc.gui.browser.ExtensionBrowser
+import org.videolan.vlc.gui.browser.*
+import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.Navigator
-import org.videolan.vlc.gui.browser.FileBrowserFragment
-import org.videolan.vlc.gui.browser.MainBrowserFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.interfaces.Filterable
@@ -64,6 +65,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.isSchemeNetwork
 
 private const val TAG = "VLC/MainActivity"
 
@@ -93,6 +95,7 @@ class MainActivity : ContentActivity(),
         if (savedInstanceState == null) {
             fileListFragment = FileBrowserFragment()
             navigationFragment = MainBrowserFragment()
+            navigationFragment.setMainActivity(this)
             //navigationFragment.listener = fileListFragment
             supportFragmentManager.commit { add(R.id.navigation_fragment_container, navigationFragment)
                 add(R.id.file_list_fragment_container, fileListFragment)}
@@ -251,5 +254,17 @@ class MainActivity : ContentActivity(),
             toolbar.menu.findItem(R.id.ml_menu_filter).expandActionView()
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    public fun onNavigationItemClicked(item: MediaWrapper) {
+       // fileListFragment = if (item.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
+      //      else FileBrowserFragment()
+       // fileListFragment?.apply { arguments = bundleOf(KEY_MEDIA to item) }
+        fileListFragment.browse(item, true)
+        //fileListFragment = supportFragmentManager.findFragmentById(R.id.file_list_fragment_container) as BaseBrowserFragment
+    }
+
+    public fun updateFileListFragement(fragement: BaseBrowserFragment) {
+        fileListFragment = fragement
     }
 }

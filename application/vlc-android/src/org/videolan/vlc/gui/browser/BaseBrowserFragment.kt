@@ -50,6 +50,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
+import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
@@ -268,8 +269,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         if (BuildConfig.DEBUG) for (i in 0 until ctx.supportFragmentManager.backStackEntryCount) {
             Log.d(this::class.java.simpleName, "Adding to back stack from PathAdapter: ${ctx.supportFragmentManager.getBackStackEntryAt(i).name}")
         }
-        ft.replace(R.id.fragment_placeholder, next, media.title)
+        ft.replace(R.id.file_list_fragment_container, next, media.title)
         ft.commit()
+        (activity as MainActivity)?.updateFileListFragement(next as BaseBrowserFragment)
     }
 
     override fun onRefresh() {

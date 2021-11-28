@@ -56,6 +56,8 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.browser.*
+import org.videolan.vlc.gui.MainActivity
+
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -81,6 +83,8 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
 
     private var displayInList = false
     private val displayInListKey = "main_browser_fragment_display_mode"
+
+    private lateinit var mainActivity: MainActivity
 
     override fun hasFAB() = true
 
@@ -345,10 +349,11 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                         }
                     }
                 }
-                val intent = Intent(requireActivity().applicationContext, SecondaryActivity::class.java)
-                intent.putExtra(KEY_MEDIA, item)
-                intent.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.FILE_BROWSER)
-                startActivity(intent)
+                //val intent = Intent(requireActivity().applicationContext, SecondaryActivity::class.java)
+                //intent.putExtra(KEY_MEDIA, item)
+                //intent.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.FILE_BROWSER)
+                //startActivity(intent)
+                mainActivity?.onNavigationItemClicked(item)
             }
         }
 
@@ -409,5 +414,9 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
             CTX_ADD_FOLDER_AND_SUB_PLAYLIST -> requireActivity().addToPlaylistAsync(mw.uri.toString(), true)
             CTX_FAV_EDIT -> showAddServerDialog(mw)
         }
+    }
+
+    fun setMainActivity(activity: MainActivity) {
+        mainActivity = activity;
     }
 }

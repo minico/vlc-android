@@ -14,14 +14,6 @@
             android:nextFocusDown="@+id/ml_menu_search"
             android:nextFocusForward="@+id/ml_menu_search" />
 
-    <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_placeholder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:keyboardNavigationCluster="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:targetApi="o" />
-
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
