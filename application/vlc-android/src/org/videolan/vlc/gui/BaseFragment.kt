@@ -43,7 +43,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
         get() = null
 
     val menu: Menu?
-        get() = (activity as? AudioPlayerContainerActivity)?.menu
+        get() = null
 
     abstract fun getTitle(): String
     open fun onFabPlayClick(view: View) {}
