@@ -148,7 +148,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         tabLayout = findViewById(R.id.sliding_tabs)
         tabLayout?.visibility = View.VISIBLE
         appBarLayout.setExpanded(true)
-        bottomBar = findViewById(R.id.navigation)
+        //bottomBar = findViewById(R.id.navigation)
         tabLayout?.viewTreeObserver?.addOnGlobalLayoutListener {
             //add a shadow if there are tabs
             val isTabLayoutShown = (tabLayout?.layoutParams?.height != 0)

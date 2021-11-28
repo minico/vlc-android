@@ -85,7 +85,7 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
             currentFragment = supportFragmentManager.getFragment(state, "current_fragment")
         }
         lifecycle.addObserver(this@Navigator)
-        navigationView = findViewById(R.id.navigation)
+        //navigationView = findViewById(R.id.navigation)
         appbarLayout = findViewById(R.id.appbar)
     }
 

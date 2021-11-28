@@ -26,14 +26,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -56,6 +55,8 @@ import org.videolan.vlc.gui.browser.ExtensionBrowser
 import org.videolan.vlc.gui.dialogs.AllAccessPermissionDialog
 import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.Navigator
+import org.videolan.vlc.gui.browser.FileBrowserFragment
+import org.videolan.vlc.gui.browser.MainBrowserFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.interfaces.Filterable
@@ -79,6 +80,8 @@ class MainActivity : ContentActivity(),
         }
     private lateinit var mediaLibrary: Medialibrary
     private var scanNeeded = false
+    private lateinit var fileListFragment: BaseBrowserFragment
+    private lateinit var navigationFragment: MainBrowserFragment
 
     override fun getSnackAnchorView(): View? {
         val view = super.getSnackAnchorView()
@@ -91,14 +94,22 @@ class MainActivity : ContentActivity(),
         Util.checkCpuCompatibility(this)
         /*** Start initializing the UI  */
         setContentView(R.layout.main)
-        initAudioPlayerContainerActivity()
-        setupNavigation(savedInstanceState)
+        //initAudioPlayerContainerActivity()
+        //setupNavigation(savedInstanceState)
+        if (savedInstanceState == null) {
+            fileListFragment = FileBrowserFragment()
+            navigationFragment = MainBrowserFragment()
+            //navigationFragment.listener = fileListFragment
+            supportFragmentManager.commit { add(R.id.navigation_fragment_container, navigationFragment)
+                add(R.id.file_list_fragment_container, fileListFragment)}
+        } else {
 
+        }
         /* Set up the action bar */
-        prepareActionBar()
+       // prepareActionBar()
         /* Reload the latest preferences */
-        scanNeeded = savedInstanceState == null && settings.getBoolean(KEY_MEDIALIBRARY_AUTO_RESCAN, true)
-        if (BuildConfig.DEBUG) extensionsManager = ExtensionsManager.getInstance()
+        scanNeeded = false
+        //if (BuildConfig.DEBUG) extensionsManager = ExtensionsManager.getInstance()
         mediaLibrary = Medialibrary.getInstance()
 
 //        VLCBilling.getInstance(application).retrieveSkus()
@@ -142,14 +153,14 @@ class MainActivity : ContentActivity(),
     override fun onSaveInstanceState(outState: Bundle) {
         val current = currentFragment
         if (current !is ExtensionBrowser) supportFragmentManager.putFragment(outState, "current_fragment", current!!)
-        outState.putInt(EXTRA_TARGET, currentFragmentId)
+        //outState.putInt(EXTRA_TARGET, currentFragmentId)
         super.onSaveInstanceState(outState)
     }
 
     override fun onRestart() {
         super.onRestart()
         /* Reload the latest preferences */
-        reloadPreferences()
+        //reloadPreferences()
     }
 
     @TargetApi(Build.VERSION_CODES.N)
@@ -239,8 +250,6 @@ class MainActivity : ContentActivity(),
                     if (fragment is VideoGridFragment)
                         fragment.updateSeenMediaMarker()
                 RESULT_UPDATE_ARTISTS -> {
-                    val fragment = currentFragment
-                    if (fragment is AudioBrowserFragment) fragment.viewModel.refresh()
                 }
             }
         } else if (requestCode == ACTIVITY_RESULT_OPEN && resultCode == Activity.RESULT_OK) {
