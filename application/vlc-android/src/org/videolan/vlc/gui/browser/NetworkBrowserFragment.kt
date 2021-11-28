@@ -120,7 +120,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
             is Dialog.LoginDialog -> goBack()
             is Dialog.ErrorMessage -> {
                view?.let { Snackbar.make(it, "${dialog.title}: ${dialog.text}", Snackbar.LENGTH_LONG).show() }
-               goBack()
+               //goBack()
             }
         }
     }

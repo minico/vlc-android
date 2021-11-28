@@ -65,6 +65,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.isSchemeNetwork
 import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.util.*
@@ -261,7 +262,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         val ctx = activity
         if (ctx == null || !isResumed || isRemoving) return
         val ft = ctx.supportFragmentManager.beginTransaction()
-        val next = createFragment()
+        val next = if (media.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
+             else FileBrowserFragment()
         viewModel.saveList(media)
         next.arguments = bundleOf(KEY_MEDIA to media)
         if (save) ft.addToBackStack(if (isRootDirectory) "root" else if (currentMedia != null) currentMedia?.uri.toString() else mrl!!)
