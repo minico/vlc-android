@@ -24,14 +24,12 @@
             android:id="@+id/navigation_fragment_container"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:background="@color/red"
             android:layout_height="fill_parent"
             />
         <FrameLayout
             android:id="@+id/file_list_fragment_container"
             android:layout_weight="3"
             android:layout_width="0dp"
-            android:background="@color/green50"
             android:layout_height="fill_parent"
             />
     </LinearLayout>
