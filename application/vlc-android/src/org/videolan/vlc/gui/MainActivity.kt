@@ -103,7 +103,7 @@ class MainActivity : ContentActivity(),
 
         }
         /* Set up the action bar */
-       // prepareActionBar()
+        prepareActionBar()
         /* Reload the latest preferences */
         scanNeeded = false
         //if (BuildConfig.DEBUG) extensionsManager = ExtensionsManager.getInstance()
@@ -138,8 +138,8 @@ class MainActivity : ContentActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        val current = currentFragment
-        if (current !is ExtensionBrowser) supportFragmentManager.putFragment(outState, "current_fragment", current!!)
+        //val current = currentFragment
+        //if (current !is ExtensionBrowser) supportFragmentManager.putFragment(outState, "current_fragment", current!!)
         //outState.putInt(EXTRA_TARGET, currentFragmentId)
         super.onSaveInstanceState(outState)
     }
@@ -187,7 +187,7 @@ class MainActivity : ContentActivity(),
      * Handle onClick form menu buttons
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId != R.id.ml_menu_filter) UiTools.setKeyboardVisibility(appBarLayout, false)
+//        if (item.itemId != R.id.ml_menu_filter) UiTools.setKeyboardVisibility(appBarLayout, false)
 
         // Handle item selection
         return when (item.itemId) {

@@ -97,7 +97,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
 
     override fun onStart() {
         super.onStart()
-        setBreadcrumb()
+        //setBreadcrumb()
     }
 
     override fun onStop() {
