@@ -22,55 +22,29 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:targetApi="o" />
 
-    <androidx.appcompat.widget.ViewStubCompat
-            android:id="@+id/scan_viewstub"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_anchor="@+id/navigation"
-            app:layout_anchorGravity="top"
-            android:layout_gravity="top"
-            android:layout="@layout/scan_progress" />
-
-    <include layout="@layout/audioplayercontainer" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/default_margin"
-            app:useCompatPadding="true"
-            app:layout_dodgeInsetEdges="bottom"
-            app:srcCompat="@drawable/ic_fab_add"
-            android:tint="@color/grey50"
-            android:visibility="invisible"
-            app:borderWidth="0dp"
-            app:layout_anchor="@+id/navigation"
-            app:layout_anchorGravity="top|end"
-            android:layout_gravity="top|end"
-            app:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
-            app:rippleColor="@color/orange50" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="?attr/bottom_navigation_background"
-            app:elevation="16dp"
-            app:itemIconTint="@color/bottom_navigation_selector"
-            app:itemRippleColor="?attr/bottom_navigation_focus"
-            app:itemTextColor="@color/bottom_navigation_selector"
-            app:labelVisibilityMode="labeled"
-            app:layout_behavior="org.videolan.vlc.gui.helpers.BottomNavigationBehavior"
-            app:layout_insetEdge="bottom"
-            app:menu="@menu/bottom_navigation" />
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="?android:attr/dividerHorizontal"
+        android:showDividers="middle">
+        <FrameLayout
+            android:id="@+id/navigation_fragment_container"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:background="@color/red"
+            android:layout_height="fill_parent"
+            />
+        <FrameLayout
+            android:id="@+id/file_list_fragment_container"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:background="@color/green50"
+            android:layout_height="fill_parent"
+            />
+    </LinearLayout>
 
 
-    <androidx.appcompat.widget.ViewStubCompat
-            android:id="@+id/audio_player_tips"
-            android:layout="@layout/audio_player_tips"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 

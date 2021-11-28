@@ -136,7 +136,7 @@ public class ExtensionsManager {
 
     public void displayPlugin(Activity activity, int id, ExtensionListing extension, boolean visible) {
         if (visible) {
-            MenuItem extensionGroup = ((NavigationView)activity.findViewById(R.id.navigation)).getMenu().findItem(R.id.extensions_group);
+/*            MenuItem extensionGroup = ((NavigationView)activity.findViewById(R.id.navigation)).getMenu().findItem(R.id.extensions_group);
             extensionGroup.setVisible(true);
             MenuItem item = extensionGroup.getSubMenu().add(R.id.extensions_group, id, 0, extension.title());
             item.setCheckable(false);
@@ -155,7 +155,7 @@ public class ExtensionsManager {
                     item.setIcon(activity.getPackageManager().getApplicationIcon(extension.componentName().getPackageName()));
                 } catch (PackageManager.NameNotFoundException e) {
                     item.setIcon(R.drawable.icon);
-                }
+                }*/
         }
     }
 
@@ -187,7 +187,7 @@ public class ExtensionsManager {
                         for (int i=0; i<extraTitles.size(); i++)
                             Settings.INSTANCE.getInstance(activity.getApplication()).edit().putBoolean(extraKeys.get(i), extraCheckedStates[i]).apply();
                         displayPlugin(activity, id, extension, true);
-                        activity.findViewById(R.id.navigation).postInvalidate();
+                       // activity.findViewById(R.id.navigation).postInvalidate();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
