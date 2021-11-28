@@ -32,7 +32,7 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
             val result = DiffUtil.calculateDiff(diffCallback.apply { update(dataset, finalList) }, detectMoves())
             Pair(finalList, result)
         }
-        dataset = finalList
+        dataset = finalList.distinct()
         result.dispatchUpdatesTo(this@DiffUtilAdapter)
         onUpdateFinished()
     }

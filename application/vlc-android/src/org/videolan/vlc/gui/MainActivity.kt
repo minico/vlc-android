@@ -277,11 +277,7 @@ class MainActivity : ContentActivity(),
     }
 
     public fun onNavigationItemClicked(item: MediaWrapper) {
-       // fileListFragment = if (item.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
-      //      else FileBrowserFragment()
-       // fileListFragment?.apply { arguments = bundleOf(KEY_MEDIA to item) }
         fileListFragment.browse(item, true)
-        //fileListFragment = supportFragmentManager.findFragmentById(R.id.file_list_fragment_container) as BaseBrowserFragment
     }
 
     public fun updateFileListFragement(fragement: BaseBrowserFragment) {
