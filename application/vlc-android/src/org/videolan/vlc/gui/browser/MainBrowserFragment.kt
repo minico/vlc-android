@@ -122,18 +122,19 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
-                displayInList = item.itemId == R.id.ml_menu_display_list
-                containerAdapterAssociation.keys.forEach {
-                    it.inCards = !displayInList
-                }
-                localEntry.displayInCards = !displayInList
-                favoritesEntry.displayInCards = !displayInList
-                networkEntry.displayInCards = !displayInList
-                activity?.invalidateOptionsMenu()
-                Settings.getInstance(requireActivity()).putSingle(displayInListKey, displayInList)
+//                displayInList = item.itemId == R.id.ml_menu_display_list
+//                containerAdapterAssociation.keys.forEach {
+//                    it.inCards = !displayInList
+//                }
+//                localEntry.displayInCards = !displayInList
+//                favoritesEntry.displayInCards = !displayInList
+//                networkEntry.displayInCards = !displayInList
+//                activity?.invalidateOptionsMenu()
+//                Settings.getInstance(requireActivity()).putSingle(displayInListKey, displayInList)
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            else ->
+                super.onOptionsItemSelected(item)
         }
     }
 
@@ -161,7 +162,8 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        displayInList = Settings.getInstance(requireActivity()).getBoolean(displayInListKey, false)
+        //displayInList = Settings.getInstance(requireActivity()).getBoolean(displayInListKey, false)
+        displayInList = true
 
         //local
         localEntry = view.findViewById(R.id.local_browser_entry)
