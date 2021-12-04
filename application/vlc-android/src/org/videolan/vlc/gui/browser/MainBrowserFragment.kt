@@ -372,16 +372,8 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         }
 
         override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
-            if (item.itemType != MediaLibraryItem.TYPE_MEDIA) return false
-            val mediaWrapper = item as MediaWrapper
-            if (mediaWrapper.type == MediaWrapper.TYPE_AUDIO ||
-                    mediaWrapper.type == MediaWrapper.TYPE_VIDEO ||
-                    mediaWrapper.type == MediaWrapper.TYPE_DIR) {
-                if (!checkAdapterForActionMode()) return false
-                val adapter = requireAdapter()
-                adapter.multiSelectHelper.toggleSelection(position)
-                if (actionMode == null) startActionMode()
-            } else onCtxClick(v, position, item)
+            val selItem = item as MediaWrapper
+            lifecycleScope.launch(Dispatchers.IO) { browserFavRepository.deleteBrowserFav(selItem?.uri) }
             return true
         }
 

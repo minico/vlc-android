@@ -502,14 +502,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
-        if (item.itemType != MediaLibraryItem.TYPE_MEDIA) return false
         val mediaWrapper = item as MediaWrapper
-        if (mediaWrapper.type == MediaWrapper.TYPE_AUDIO ||
-                mediaWrapper.type == MediaWrapper.TYPE_VIDEO ||
-                mediaWrapper.type == MediaWrapper.TYPE_DIR) {
-            adapter.multiSelectHelper.toggleSelection(position)
-            if (actionMode == null) startActionMode()
-        } else onCtxClick(v, position, item)
+        if (mediaWrapper.type == MediaWrapper.TYPE_DIR) {
+            lifecycleScope.launch { browserFavRepository.addLocalFavItem(mediaWrapper!!.uri, mediaWrapper.title, mediaWrapper.artworkURL) }
+        }
         return true
     }
 

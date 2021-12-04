@@ -217,8 +217,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
             is SimpleClick -> onClick(position, item)
             is LongClick -> onLongClick(position, item)
             is ImageClick -> {
-                if (actionMode != null) onClick(position, item)
-                else onLongClick(position, item)
+                onClick(position, item)
             }
         }
     }
@@ -239,10 +238,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     }
 
     fun onLongClick(position: Int, item: MediaWrapper) {
-        multiSelectHelper.toggleSelection(position, true)
-        historyAdapter.notifyItemChanged(position, item)
-        if (actionMode == null) startActionMode()
-        invalidateActionMode()
+        viewModel.removeFromHistory(item as MediaWrapper)
     }
 
     override fun onRemove(position: Int, item: MediaLibraryItem) {
