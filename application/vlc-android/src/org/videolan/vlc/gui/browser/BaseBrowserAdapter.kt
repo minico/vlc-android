@@ -26,6 +26,7 @@ import android.annotation.TargetApi
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -304,11 +305,25 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     open fun checkBoxAction(v: View, mrl: String) {}
 
     override fun prepareList(list: List<MediaLibraryItem>): List<MediaLibraryItem> {
-        val internalList = ArrayList(list)
+        val internalList = ArrayList<MediaLibraryItem>()
+        val tmpList = ArrayList(list)
         mediaCount = 0
-        for (item in internalList) {
+        for (mediaItem in tmpList) {
+            val item = mediaItem as MediaWrapper
+            Log.d("XXXX", item.title + ": uri:" + item.uri)
             if (item.itemType == TYPE_MEDIA && ((item as MediaWrapper).type == MediaWrapper.TYPE_AUDIO || item.type == MediaWrapper.TYPE_VIDEO))
                 ++mediaCount
+            var found = false
+            for (mediaItem2 in internalList) {
+                val item2 = mediaItem2 as MediaWrapper
+                if(item2.title == item.title && getProtocol(item) == getProtocol(item2)) {
+                    found = true
+                    break
+                }
+            }
+            if(!found) {
+                internalList.add(item)
+            }
         }
         return internalList
     }
