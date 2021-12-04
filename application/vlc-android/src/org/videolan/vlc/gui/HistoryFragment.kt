@@ -68,7 +68,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         viewModel.dataset.observe(viewLifecycleOwner, { list ->
             list?.let {
                 historyAdapter.update(it)
-                updateEmptyView()
+                //updateEmptyView()
                 if (::cleanMenuItem.isInitialized) {
                     cleanMenuItem.isVisible = list.isNotEmpty()
                 }
