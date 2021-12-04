@@ -102,7 +102,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                     if (url != null) refreshImpl()
                     else browseImpl()
                 }
-                is ParseSubDirectories -> parseSubDirectoriesImpl(action.list)
+                //is ParseSubDirectories -> parseSubDirectoriesImpl(action.list)
                 ClearListener -> withContext(coroutineContextProvider.IO) { mediabrowser?.changeEventListener(null) }
                 Release -> withContext(coroutineContextProvider.IO) {
                     try {
