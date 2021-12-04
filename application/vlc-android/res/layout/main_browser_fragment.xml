@@ -77,19 +77,18 @@
             app:layout_constraintTop_toBottomOf="@+id/network_browser_entry" />
 
         <ImageView
-            android:id="@+id/item_icon_settings"
+            android:id="@+id/item_icon_history"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_marginStart="10dp"
-            android:contentDescription="@string/cover_art"
-            android:onClick="@{holder::onImageClick}"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="14dp"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_others"
-            app:srcCompat="@drawable/ic_menu_preferences" />
+            app:srcCompat="@drawable/ic_menu_history" />
 
         <Button
-            android:id="@+id/btn_show_preferences"
+            android:id="@+id/btn_show_history"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -103,9 +102,41 @@
             android:singleLine="true"
             android:textColor="?attr/list_title"
             android:textSize="16sp"
-            android:text="设置"
+            android:text="观看历史"
             app:layout_constraintTop_toBottomOf="@+id/title_others"
-            app:layout_constraintStart_toEndOf="@+id/item_icon_settings"
+            app:layout_constraintStart_toEndOf="@+id/item_icon_history"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_goneMarginBottom="2dp" />
+
+        <ImageView
+            android:id="@+id/item_icon_settings"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="10dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_icon_history"
+            app:srcCompat="@drawable/ic_menu_preferences" />
+
+        <Button
+            android:id="@+id/btn_show_preferences"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="55dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:lineSpacingMultiplier="1.1"
+            android:marqueeRepeatLimit="1"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="?attr/list_title"
+            android:textSize="16sp"
+            android:text="设置"
+            app:layout_constraintTop_toBottomOf="@+id/btn_show_history"
+            app:layout_constraintStart_toEndOf="@+id/item_icon_history"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_goneMarginBottom="2dp" />
 
