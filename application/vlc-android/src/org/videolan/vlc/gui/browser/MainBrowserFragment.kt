@@ -27,6 +27,7 @@ package org.videolan.vlc.gui.browser
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import androidx.appcompat.view.ActionMode
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
@@ -57,6 +58,7 @@ import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.browser.*
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.preferences.PreferencesActivity
 
 
 @ObsoleteCoroutinesApi
@@ -241,6 +243,11 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         localEntry.displayInCards = !displayInList
         favoritesEntry.displayInCards = !displayInList
         networkEntry.displayInCards = !displayInList
+
+        val btn_show_preference: Button = view.findViewById(R.id.btn_show_preferences) as Button
+        btn_show_preference.setOnClickListener {
+            activity?.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
+        }
     }
 
     override fun onResume() {
