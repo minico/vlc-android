@@ -86,6 +86,7 @@ class MainActivity : ContentActivity(),
     private var scanNeeded = false
     private lateinit var fileListFragment: BaseBrowserFragment
     private lateinit var navigationFragment: MainBrowserFragment
+    private var historyFragment: HistoryFragment? = null
 
     override fun getSnackAnchorView(): View? {
         val view = super.getSnackAnchorView()
@@ -282,5 +283,21 @@ class MainActivity : ContentActivity(),
 
     public fun updateFileListFragement(fragement: BaseBrowserFragment) {
         fileListFragment = fragement
+    }
+
+    public fun onShowHistoryClicked() {
+        if (historyFragment == null) {
+            historyFragment = HistoryFragment()
+            supportFragmentManager.beginTransaction()
+                .add(R.id.file_list_fragment_container, historyFragment!!)
+                .commit()
+        } else {
+            supportFragmentManager.beginTransaction()
+            historyFragment = HistoryFragment()
+            supportFragmentManager.beginTransaction()
+                .remove(historyFragment!!)
+                .add(R.id.file_list_fragment_container, historyFragment!!)
+                .commit()
+        }
     }
 }
