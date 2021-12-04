@@ -310,7 +310,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         mediaCount = 0
         for (mediaItem in tmpList) {
             val item = mediaItem as MediaWrapper
-            Log.d("XXXX", item.title + ": uri:" + item.uri)
+            Log.d("XXXX", "item type:" + item.type + ", item title:" + item.title + ": uri:" + item.uri)
             if (item.itemType == TYPE_MEDIA && ((item as MediaWrapper).type == MediaWrapper.TYPE_AUDIO || item.type == MediaWrapper.TYPE_VIDEO))
                 ++mediaCount
             var found = false
