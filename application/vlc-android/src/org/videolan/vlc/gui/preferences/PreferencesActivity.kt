@@ -59,7 +59,7 @@ class PreferencesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.preferences_activity)
-        setSupportActionBar(findViewById<View>(R.id.main_toolbar) as Toolbar)
+        //setSupportActionBar(findViewById<View>(R.id.main_toolbar) as Toolbar)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_placeholder, PreferencesFragment().apply { if (intent.hasExtra(EXTRA_PREF_END_POINT)) arguments = bundleOf(EXTRA_PREF_END_POINT to intent.getParcelableExtra(EXTRA_PREF_END_POINT)) })
