@@ -248,6 +248,11 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         btn_show_preference.setOnClickListener {
             activity?.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
         }
+
+        val btn_show_history: Button = view.findViewById(R.id.btn_show_history) as Button
+        btn_show_history.setOnClickListener {
+            mainActivity?.onShowHistoryClicked()
+        }
     }
 
     override fun onResume() {
