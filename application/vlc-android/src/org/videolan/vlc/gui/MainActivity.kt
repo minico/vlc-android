@@ -30,6 +30,7 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.view.ActionMode
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -76,8 +77,7 @@ private const val TAG = "VLC/MainActivity"
 @ObsoleteCoroutinesApi
 class MainActivity : ContentActivity(),
         ExtensionManagerService.ExtensionManagerActivity,
-        INavigator by Navigator()
-{
+        INavigator by Navigator() {
     var refreshing: Boolean = false
         set(value) {
             field = value
@@ -87,6 +87,7 @@ class MainActivity : ContentActivity(),
     private lateinit var fileListFragment: BaseBrowserFragment
     private lateinit var navigationFragment: MainBrowserFragment
     private var historyFragment: HistoryFragment? = null
+    private var shouldExt = false
 
     override fun getSnackAnchorView(): View? {
         val view = super.getSnackAnchorView()
@@ -106,8 +107,10 @@ class MainActivity : ContentActivity(),
             navigationFragment = MainBrowserFragment()
             navigationFragment.setMainActivity(this)
             //navigationFragment.listener = fileListFragment
-            supportFragmentManager.commit { add(R.id.navigation_fragment_container, navigationFragment)
-                add(R.id.file_list_fragment_container, fileListFragment)}
+            supportFragmentManager.commit {
+                add(R.id.navigation_fragment_container, navigationFragment)
+                add(R.id.file_list_fragment_container, fileListFragment)
+            }
         } else {
 
         }
@@ -171,8 +174,6 @@ class MainActivity : ContentActivity(),
 
     @TargetApi(Build.VERSION_CODES.N)
     override fun onBackPressed() {
-
-
         /* Close playlist search if open or Slide down the audio player if it is shown entirely. */
         if (isAudioPlayerReady && (audioPlayer.backPressed() || slideDownAudioPlayer()))
             return
@@ -189,7 +190,11 @@ class MainActivity : ContentActivity(),
             UiTools.confirmExit(this)
             return
         }
-        finish()
+        if (shouldExt) {
+            finish()
+        }
+        Toast.makeText(applicationContext, "再按一次返回键退出", Toast.LENGTH_SHORT).show()
+        shouldExt = true
     }
 
     override fun startSupportActionMode(callback: ActionMode.Callback): ActionMode? {
@@ -248,7 +253,10 @@ class MainActivity : ContentActivity(),
             when (resultCode) {
                 RESULT_RESCAN -> this.reloadLibrary()
                 RESULT_RESTART, RESULT_RESTART_APP -> {
-                    val intent = Intent(this@MainActivity, if (resultCode == RESULT_RESTART_APP) StartActivity::class.java else MainActivity::class.java)
+                    val intent = Intent(
+                        this@MainActivity,
+                        if (resultCode == RESULT_RESTART_APP) StartActivity::class.java else MainActivity::class.java
+                    )
                     finish()
                     startActivity(intent)
                 }
@@ -274,18 +282,24 @@ class MainActivity : ContentActivity(),
         if (keyCode == KeyEvent.KEYCODE_SEARCH) {
             toolbar.menu.findItem(R.id.ml_menu_filter).expandActionView()
         }
+        if (keyCode != KeyEvent.KEYCODE_BACK) {
+            shouldExt = false
+        }
         return super.onKeyDown(keyCode, event)
     }
 
     public fun onNavigationItemClicked(item: MediaWrapper) {
+        shouldExt = false
         fileListFragment.browse(item, true)
     }
 
     public fun updateFileListFragement(fragement: BaseBrowserFragment) {
+        shouldExt = false
         fileListFragment = fragement
     }
 
     public fun onShowHistoryClicked() {
+        shouldExt = false
         if (historyFragment == null) {
             historyFragment = HistoryFragment()
             supportFragmentManager.beginTransaction()
@@ -299,5 +313,9 @@ class MainActivity : ContentActivity(),
                 .add(R.id.file_list_fragment_container, historyFragment!!)
                 .commit()
         }
+    }
+
+    public fun onShowPreferenceClicked() {
+        shouldExt = false
     }
 }

@@ -247,6 +247,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         val btn_show_preference: Button = view.findViewById(R.id.btn_show_preferences) as Button
         btn_show_preference.setOnClickListener {
             activity?.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
+            mainActivity?.onShowPreferenceClicked()
         }
 
         val btn_show_history: Button = view.findViewById(R.id.btn_show_history) as Button
