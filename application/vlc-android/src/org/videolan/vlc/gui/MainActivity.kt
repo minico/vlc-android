@@ -26,6 +26,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -290,12 +291,20 @@ class MainActivity : ContentActivity(),
 
     public fun onNavigationItemClicked(item: MediaWrapper) {
         shouldExt = false
-        fileListFragment.browse(item, true)
-    }
 
-    public fun updateFileListFragement(fragement: BaseBrowserFragment) {
-        shouldExt = false
-        fileListFragment = fragement
+        val ft = supportFragmentManager.beginTransaction()
+        val next = if (item.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
+        else FileBrowserFragment()
+        fileListFragment.viewModel.saveList(item)
+        next.arguments = bundleOf(KEY_MEDIA to item)
+        //ft.addToBackStack(if (fileListFragment.isRootDirectory) "root"
+        //else if (fileListFragment.currentMedia != null) fileListFragment.currentMedia?.uri.toString() else fileListFragment.mrl!!)
+        if (BuildConfig.DEBUG) for (i in 0 until supportFragmentManager.backStackEntryCount) {
+            Log.d(this::class.java.simpleName, "Adding to back stack from PathAdapter: ${supportFragmentManager.getBackStackEntryAt(i).name}")
+        }
+        ft.replace(R.id.file_list_fragment_container, next, item.title)
+        ft.commit()
+        fileListFragment = next
     }
 
     public fun onShowHistoryClicked() {
@@ -303,14 +312,14 @@ class MainActivity : ContentActivity(),
         if (historyFragment == null) {
             historyFragment = HistoryFragment()
             supportFragmentManager.beginTransaction()
-                .add(R.id.file_list_fragment_container, historyFragment!!)
+                .replace(R.id.file_list_fragment_container, historyFragment!!)
                 .commit()
         } else {
             supportFragmentManager.beginTransaction()
             historyFragment = HistoryFragment()
             supportFragmentManager.beginTransaction()
                 .remove(historyFragment!!)
-                .add(R.id.file_list_fragment_container, historyFragment!!)
+                .replace(R.id.file_list_fragment_container, historyFragment!!)
                 .commit()
         }
     }
