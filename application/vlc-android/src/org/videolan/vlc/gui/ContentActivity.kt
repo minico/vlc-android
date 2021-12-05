@@ -115,10 +115,10 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.ml_menu_search -> {
-                startActivity(Intent(Intent.ACTION_SEARCH, null, this, SearchActivity::class.java))
-                return true
-            }
+//            R.id.ml_menu_search -> {
+//                startActivity(Intent(Intent.ACTION_SEARCH, null, this, SearchActivity::class.java))
+//                return true
+//            }
             R.id.ml_menu_renderers -> {
                 if (!PlaybackService.hasRenderer() && RendererDelegate.renderers.size == 1) {
                     val renderer = RendererDelegate.renderers.value[0]
