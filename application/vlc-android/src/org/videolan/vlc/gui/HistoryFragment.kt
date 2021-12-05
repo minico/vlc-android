@@ -94,7 +94,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         super.onActivityCreated(savedInstanceState)
         list.layoutManager = LinearLayoutManager(activity)
         list.adapter = historyAdapter
-        list.nextFocusUpId = R.id.ml_menu_search
+        //list.nextFocusUpId = R.id.ml_menu_search
         list.nextFocusLeftId = android.R.id.list
         list.nextFocusRightId = android.R.id.list
         list.nextFocusForwardId = android.R.id.list

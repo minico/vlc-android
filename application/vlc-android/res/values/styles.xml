@@ -12,11 +12,12 @@
 
     </style>
 
-    <style name="Theme.VLC.Apearance" parent="Theme.MaterialComponents.Light">
+    <style name="Theme.VLC.Apearance" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="marginTopContent">50dp</item>
         <item name="toolbar_popup_style">@style/ThemeOverlay.MaterialComponents</item>
         <item name="actionMenuTextColor">@color/white</item>
 
+        <item name="android:windowNoTitle">true</item>
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
         <item name="android:dropDownListViewStyle">@style/Theme.VLC.List</item>
@@ -416,7 +417,7 @@
         <item name="android:dividerHeight">0dp</item>
     </style>
 
-    <style name="Theme.VLC.NoTitleBar" parent="Theme.MaterialComponents.Light">
+    <style name="Theme.VLC.NoTitleBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="font_default">@color/grey900</item>
         <item name="font_light">@color/grey700</item>

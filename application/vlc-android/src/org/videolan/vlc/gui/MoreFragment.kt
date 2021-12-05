@@ -176,7 +176,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         historyEntry.list.adapter = historyAdapter
-        historyEntry.list.nextFocusUpId = R.id.ml_menu_search
+        //historyEntry.list.nextFocusUpId = R.id.ml_menu_search
         historyEntry.list.nextFocusLeftId = android.R.id.list
         historyEntry.list.nextFocusRightId = android.R.id.list
         historyEntry.list.nextFocusForwardId = android.R.id.list
