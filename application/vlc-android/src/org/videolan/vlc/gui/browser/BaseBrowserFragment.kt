@@ -89,7 +89,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     protected val handler = BrowserFragmentHandler(this)
     private lateinit var layoutManager: LinearLayoutManager
     override var mrl: String? = null
-    protected var currentMedia: MediaWrapper? = null
+    public var currentMedia: MediaWrapper? = null
     private var savedPosition = -1
     override var isRootDirectory: Boolean = false
     override val scannedDirectory = false
@@ -255,7 +255,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         val activity = activity
         if (activity?.isStarted() != true) return false
         if (!isRootDirectory && !activity.isFinishing && !activity.isDestroyed) activity.supportFragmentManager.popBackStack()
-        return !isRootDirectory
+        return !isRootDirectory && activity.supportFragmentManager.backStackEntryCount > 0
     }
 
     fun browse(media: MediaWrapper, save: Boolean) {
@@ -272,7 +272,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
         ft.replace(R.id.file_list_fragment_container, next, media.title)
         ft.commit()
-        (activity as MainActivity)?.updateFileListFragement(next as BaseBrowserFragment)
     }
 
     override fun onRefresh() {
