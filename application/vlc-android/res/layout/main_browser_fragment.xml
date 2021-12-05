@@ -31,6 +31,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/toolbar_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon" />
+
+        <TextView
+            android:id="@+id/toolbar_vlc_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/toolbar_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:textSize="24dp"
+            android:gravity="bottom"
+            android:textAppearance="@style/ToolbarTitleText"
+            android:text="@string/app_name" />
 
         <org.videolan.vlc.gui.view.TitleListView
                 android:id="@+id/fav_browser_entry"
@@ -39,7 +60,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/toolbar_icon" />
 
         <org.videolan.vlc.gui.view.TitleListView
                 android:id="@+id/local_browser_entry"
