@@ -103,9 +103,6 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     val playlistTipsDelegate: AudioPlaylistTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { AudioPlaylistTipsDelegate(this) }
     val shownTips = ArrayList<Int>()
 
-    protected val currentFragment: Fragment?
-        get() = supportFragmentManager.findFragmentById(R.id.fragment_placeholder)
-
     val menu: Menu
         get() = toolbar.menu
 

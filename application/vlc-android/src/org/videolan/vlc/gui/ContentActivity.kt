@@ -31,6 +31,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.AndroidDevices
@@ -52,8 +53,11 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
     private lateinit var searchView: SearchView
     private var showRenderers = !AndroidDevices.isChromeBook && !RendererDelegate.renderers.value.isNullOrEmpty()
     private val searchHiddenMenuItem = ArrayList<MenuItem>()
-    open fun hideRenderers() = false
 
+    protected val currentFragment: Fragment?
+        get() = supportFragmentManager.findFragmentById(R.id.file_list_fragment_container)
+
+    open fun hideRenderers() = false
 
     override fun initAudioPlayerContainerActivity() {
         super.initAudioPlayerContainerActivity()
