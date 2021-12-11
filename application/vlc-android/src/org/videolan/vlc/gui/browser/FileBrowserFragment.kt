@@ -138,7 +138,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val item = menu.findItem(R.id.ml_menu_save) ?: return
+        val item = menu.findItem(R.id.ml_menu_bookmark) ?: return
         item.isVisible = !isRootDirectory && mrl!!.startsWith("file")
         lifecycleScope.launchWhenStarted {
             mrl?.let {

@@ -3,7 +3,7 @@
     xmlns:vlc="http://schemas.android.com/apk/res-auto" >
     <item
         android:orderInCategory="2"
-        android:id="@+id/ml_menu_save"
+        android:id="@+id/ml_menu_bookmark"
         android:icon="@drawable/ic_menu_bookmark_outline_w"
         android:visible="false"
         vlc:showAsAction="always" />

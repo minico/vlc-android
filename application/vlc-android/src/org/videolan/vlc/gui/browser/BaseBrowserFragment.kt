@@ -433,7 +433,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.ml_menu_save -> {
+            R.id.ml_menu_bookmark -> {
                 toggleFavorite()
                 menu?.let { onPrepareOptionsMenu(it) }
                 true
