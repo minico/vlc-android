@@ -51,7 +51,7 @@ const val EXTRA_PREF_END_POINT = "extra_pref_end_point"
 class PreferencesActivity : BaseActivity() {
 
     private val searchRequestCode = 167
-    private var mAppBarLayout: AppBarLayout? = null
+    //private var mAppBarLayout: AppBarLayout? = null
     override val displayTitle = true
     override fun getSnackAnchorView(): View? = findViewById(android.R.id.content)
 
@@ -65,12 +65,12 @@ class PreferencesActivity : BaseActivity() {
                     .replace(R.id.fragment_placeholder, PreferencesFragment().apply { if (intent.hasExtra(EXTRA_PREF_END_POINT)) arguments = bundleOf(EXTRA_PREF_END_POINT to intent.getParcelableExtra(EXTRA_PREF_END_POINT)) })
                     .commit()
         }
-        mAppBarLayout = findViewById(R.id.appbar)
-        mAppBarLayout!!.post { ViewCompat.setElevation(mAppBarLayout!!, resources.getDimensionPixelSize(R.dimen.default_appbar_elevation).toFloat()) }
+        //mAppBarLayout = findViewById(R.id.appbar)
+        //mAppBarLayout!!.post { ViewCompat.setElevation(mAppBarLayout!!, resources.getDimensionPixelSize(R.dimen.default_appbar_elevation).toFloat()) }
     }
 
     internal fun expandBar() {
-        mAppBarLayout!!.setExpanded(true)
+        //mAppBarLayout!!.setExpanded(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
