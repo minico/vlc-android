@@ -28,6 +28,7 @@ import android.os.Bundle
 import android.os.Message
 import android.util.Log
 import android.view.*
+import android.widget.TextView
 import androidx.appcompat.view.ActionMode
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -40,6 +41,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.toolbar.view.*
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -148,6 +150,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        val title: TextView? = activity?.findViewById(R.id.toolbar_vlc_title)
+        title?.text = getTitle()
         if (!this::adapter.isInitialized) adapter = BaseBrowserAdapter(this)
         layoutManager = LinearLayoutManager(activity)
         binding.networkList.layoutManager = layoutManager
