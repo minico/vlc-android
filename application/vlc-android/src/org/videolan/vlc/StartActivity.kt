@@ -139,7 +139,7 @@ class StartActivity : FragmentActivity() {
         /* Check if it's the first run */
         val firstRun = savedVersionNumber == -1
         val upgrade = firstRun || savedVersionNumber != currentVersionNumber
-        val tv = showTvUi()
+        val tv = false
         if (upgrade && (tv || !firstRun)) settings.putSingle(PREF_FIRST_RUN, currentVersionNumber)
         val removeOldDevices = savedVersionNumber in 3028201..3028399
         // Route search query
