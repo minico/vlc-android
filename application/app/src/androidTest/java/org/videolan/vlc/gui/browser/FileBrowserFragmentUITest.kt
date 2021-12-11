@@ -110,7 +110,7 @@ class FileBrowserFragmentUITest : BaseUITest() {
 
         onView(withId(R.id.ml_menu_filter))
                 .check(matches(isDisplayed()))
-        onView(withId(R.id.ml_menu_save))
+        onView(withId(R.id.ml_menu_bookmark))
                 .check(matches(isDisplayed()))
 
         openActionBarOverflowOrOptionsMenu(context)
@@ -394,7 +394,7 @@ class FileBrowserFragmentUITest : BaseUITest() {
         onView(withRecyclerView(R.id.network_list).atPosition(1)).perform(click())
         onView(withRecyclerView(R.id.network_list).atPosition(0)).perform(click())
 
-        onView(withId(R.id.ml_menu_save))
+        onView(withId(R.id.ml_menu_bookmark))
                 .check(matches(withActionIconDrawable(R.drawable.ic_menu_bookmark_outline_w)))
                 .perform(click())
                 .check(matches(withActionIconDrawable(R.drawable.ic_menu_bookmark_w)))
@@ -417,7 +417,7 @@ class FileBrowserFragmentUITest : BaseUITest() {
 
         onView(withRecyclerView(R.id.network_list).atPosition(3)).perform(click())
 
-        onView(withId(R.id.ml_menu_save))
+        onView(withId(R.id.ml_menu_bookmark))
                 .check(matches(withActionIconDrawable(R.drawable.ic_menu_bookmark_w)))
                 .perform(click())
                 .check(matches(withActionIconDrawable(R.drawable.ic_menu_bookmark_outline_w)))
