@@ -30,6 +30,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.view.ActionMode
+import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -134,6 +135,9 @@ class MainActivity : ContentActivity(),
 
 
     private fun prepareActionBar() {
+        val toolbar: Toolbar = findViewById(R.id.main_toolbar)
+        setSupportActionBar(toolbar)
+
         supportActionBar?.run {
             setDisplayHomeAsUpEnabled(false)
             setHomeButtonEnabled(false)
