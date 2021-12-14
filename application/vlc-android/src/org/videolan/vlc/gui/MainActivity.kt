@@ -104,7 +104,6 @@ class MainActivity : ContentActivity(),
         if (savedInstanceState == null) {
             fileListFragment = FileBrowserFragment()
             navigationFragment = MainBrowserFragment()
-            navigationFragment.setMainActivity(this)
             //navigationFragment.listener = fileListFragment
             supportFragmentManager.commit {
                 add(R.id.navigation_fragment_container, navigationFragment)
@@ -113,6 +112,7 @@ class MainActivity : ContentActivity(),
         } else {
 
         }
+        navigationFragment.setMainActivity(this)
         /* Set up the action bar */
         prepareActionBar()
         /* Reload the latest preferences */

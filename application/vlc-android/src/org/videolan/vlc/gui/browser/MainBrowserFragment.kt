@@ -232,6 +232,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 networkAdapter.update(it)
                 updateNetworkEmptyView(networkEntry.loading)
                 if (networkViewModel.loading.value == false) networkEntry.loading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+                if (list.isEmpty()) networkEntry.setGone() else networkEntry.setVisible()
             }
         })
         networkViewModel.loading.observe(viewLifecycleOwner, {
