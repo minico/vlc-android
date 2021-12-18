@@ -903,7 +903,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             service?.playlistManager?.videoStatsOn?.postValue(false)
         } else if (overlayDelegate.isBookmarkShown()) {
             overlayDelegate.hideBookmarks()
-        } else if (AndroidDevices.isAndroidTv && isShowing && !isLocked) {
+        } else if (isShowing && !isLocked) {
             overlayDelegate.hideOverlay(true)
         } else {
             exitOK()
