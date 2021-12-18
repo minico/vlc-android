@@ -25,13 +25,16 @@
 package org.videolan.vlc.gui.browser
 
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
 import androidx.appcompat.view.ActionMode
 import androidx.core.net.toUri
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -39,6 +42,9 @@ import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.resources.*
 import org.videolan.tools.*
 import org.videolan.vlc.R
+import org.videolan.vlc.databinding.BrowserItemBinding
+import org.videolan.vlc.databinding.HistoryItemBinding
+import org.videolan.vlc.databinding.HistoryItemCardBinding
 import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
@@ -58,6 +64,7 @@ import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.browser.*
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 
 
@@ -77,6 +84,8 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     private lateinit var networkEntry: TitleListView
     private lateinit var networkViewModel: BrowserModel
 
+    private lateinit var menuItemsEntry: TitleListView
+
     private var currentAdapterActionMode: BaseBrowserAdapter? = null
 
     private val containerAdapterAssociation = HashMap<MainBrowserContainer, Pair<BaseBrowserAdapter, ViewModel>>()
@@ -86,9 +95,50 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     private var displayInList = false
     private val displayInListKey = "main_browser_fragment_display_mode"
 
-    private lateinit var mainActivity: MainActivity
-
     override fun hasFAB() = true
+
+    inner class MenuItemsAdapter() :
+        RecyclerView.Adapter<MenuItemsAdapter.ViewHolder>() {
+        inner class ViewHolder(binding: BrowserItemBinding) : BaseBrowserAdapter.ViewHolder<BrowserItemBinding>(binding) {
+            override fun getType(): Int {
+                return MediaLibraryItem.TYPE_MEDIA
+            }
+            override val titleView = binding.title
+            override fun onClick(v: View) {
+                when (layoutPosition) {
+                    0 -> (activity as MainActivity)?.onShowHistoryClicked()
+                    1 -> {
+                        activity?.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
+                        (activity as MainActivity)?.onShowPreferenceClicked()
+                    }
+                }
+            }
+            init {
+                binding.holder = this
+            }
+        }
+
+        override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+            val binding = BrowserItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+            return ViewHolder(binding)
+        }
+
+        override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+            val res = activity?.applicationContext?.resources
+            when (position) {
+                0 -> {
+                    viewHolder.binding.filename = "观看历史"
+                    viewHolder.binding.cover = BitmapDrawable(res, activity?.applicationContext?.getBitmapFromDrawable(R.drawable.ic_menu_history))
+                }
+                1 -> {
+                    viewHolder.binding.filename = "设置"
+                    viewHolder.binding.cover = BitmapDrawable(res, activity?.applicationContext?.getBitmapFromDrawable(R.drawable.ic_menu_preferences))
+                }
+            }
+        }
+
+        override fun getItemCount() = 2
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.main_browser_fragment, container, false)
@@ -241,20 +291,14 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         })
         networkViewModel.browseRoot()
 
+        menuItemsEntry = view.findViewById(R.id.menu_items_entry)
+        menuItemsEntry.loading.state = EmptyLoadingState.NONE
+        menuItemsEntry.list.adapter = MenuItemsAdapter()
+
         localEntry.displayInCards = !displayInList
         favoritesEntry.displayInCards = !displayInList
         networkEntry.displayInCards = !displayInList
-
-        val btn_show_preference: Button = view.findViewById(R.id.btn_show_preferences) as Button
-        btn_show_preference.setOnClickListener {
-            activity?.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
-            mainActivity?.onShowPreferenceClicked()
-        }
-
-        val btn_show_history: Button = view.findViewById(R.id.btn_show_history) as Button
-        btn_show_history.setOnClickListener {
-            mainActivity?.onShowHistoryClicked()
-        }
+        menuItemsEntry.displayInCards = !displayInList
     }
 
     override fun onResume() {
@@ -369,7 +413,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 //intent.putExtra(KEY_MEDIA, item)
                 //intent.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.FILE_BROWSER)
                 //startActivity(intent)
-                mainActivity?.onNavigationItemClicked(item)
+                (activity as MainActivity)?.onNavigationItemClicked(item)
             }
         }
 
@@ -422,9 +466,5 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
             CTX_ADD_FOLDER_AND_SUB_PLAYLIST -> requireActivity().addToPlaylistAsync(mw.uri.toString(), true)
             CTX_FAV_EDIT -> showAddServerDialog(mw)
         }
-    }
-
-    fun setMainActivity(activity: MainActivity) {
-        mainActivity = activity;
     }
 }
