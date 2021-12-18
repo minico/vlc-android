@@ -54,7 +54,7 @@
             android:focusableInTouchMode="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
-            android:minHeight="48dp"
+            android:minHeight="36dp"
             android:onClick="@{holder::onClick}"
             android:onLongClick="@{holder::onLongClick}">
 
@@ -73,8 +73,8 @@
         <!-- Image downloading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
         <ImageView
                 android:id="@+id/item_icon"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
