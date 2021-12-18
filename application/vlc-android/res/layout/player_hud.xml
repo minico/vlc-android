@@ -249,7 +249,7 @@
                 android:id="@+id/player_overlay_seekbar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:focusable="true"
+                android:focusable="false"
                 android:layoutDirection="ltr"
                 android:maxHeight="@dimen/seekbar_height"
                 android:minHeight="@dimen/seekbar_height"

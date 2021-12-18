@@ -1004,6 +1004,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     seekBar = findViewById(R.id.player_overlay_seekbar)
                     seekBar?.requestFocus()
                     return true
+                } else if (isShowing) {
+                    touchDelegate.seekDelta(-10000)
                 }
             }
             KeyEvent.KEYCODE_DPAD_RIGHT -> {
@@ -1014,9 +1016,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
                     pause();
                     overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT, false)
-                    seekBar = findViewById(R.id.player_overlay_seekbar)
-                    seekBar?.requestFocus()
+                    //seekBar = findViewById(R.id.player_overlay_seekbar)
+                    //seekBar?.requestFocus()
                     return true
+                } else if (isShowing) {
+                    touchDelegate.seekDelta(10000)
                 }
             }
             KeyEvent.KEYCODE_DPAD_UP -> {
@@ -1056,6 +1060,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 } else if (!isShowing) {
                     doPlayPause()
                     return true
+                } else if (isShowing) {
+                    play()
                 }
             }
             KeyEvent.KEYCODE_ENTER -> return if (isNavMenu)
