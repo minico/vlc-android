@@ -34,6 +34,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import kotlinx.android.synthetic.main.more_fragment.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -112,7 +113,6 @@ class MainActivity : ContentActivity(),
         } else {
 
         }
-        navigationFragment.setMainActivity(this)
         /* Set up the action bar */
         prepareActionBar()
         /* Reload the latest preferences */
@@ -310,6 +310,9 @@ class MainActivity : ContentActivity(),
 
     public fun onShowHistoryClicked() {
         shouldExt = false
+        val toolbar: Toolbar = findViewById(R.id.main_toolbar)
+        toolbar.setLogo(R.drawable.ic_menu_history)
+        toolbar.setTitle("观看历史")
         if (historyFragment == null) {
             historyFragment = HistoryFragment()
             supportFragmentManager.beginTransaction()
