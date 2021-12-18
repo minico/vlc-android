@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             style="@style/Theme.VLC.HorizontalListTitle"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,7 +63,7 @@
             android:id="@+id/list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="3dp"
             android:clipToPadding="false"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
