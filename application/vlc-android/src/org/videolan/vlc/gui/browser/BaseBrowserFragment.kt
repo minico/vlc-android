@@ -30,6 +30,7 @@ import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.view.ActionMode
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -150,8 +151,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val title: TextView? = activity?.findViewById(R.id.toolbar_vlc_title)
-        title?.text = getTitle()
+        val toolbar: Toolbar? = activity?.findViewById(R.id.main_toolbar)
+        toolbar?.title = getTitle()
+        toolbar?.setLogo(R.drawable.ic_am_folder)
         if (!this::adapter.isInitialized) adapter = BaseBrowserAdapter(this)
         layoutManager = LinearLayoutManager(activity)
         binding.networkList.layoutManager = layoutManager

@@ -27,6 +27,7 @@
                 android:id="@+id/toolbar_icon"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:visibility="gone"
                 app:srcCompat="@drawable/ic_am_folder" />
 
         <TextView
@@ -35,25 +36,8 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:visibility="gone"
                 android:textAppearance="@style/ToolbarTitleText"
                 android:text="@string/app_name" />
-
-
     </com.google.android.material.appbar.MaterialToolbar>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ariane"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:clipToPadding="false"
-            android:visibility="gone"
-            app:layout_scrollFlags="scroll|enterAlways" />
-
-    <include
-            layout="@layout/tab_layout"
-            android:visibility="gone" />
-
-
 </com.google.android.material.appbar.AppBarLayout>
