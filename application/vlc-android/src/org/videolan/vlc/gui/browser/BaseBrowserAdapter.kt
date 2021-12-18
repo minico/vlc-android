@@ -168,7 +168,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         return dataset.size
     }
 
-    abstract inner class ViewHolder<T : ViewDataBinding>(binding: T) : SelectorViewHolder<T>(binding), MarqueeViewHolder {
+    abstract class ViewHolder<T : ViewDataBinding>(binding: T) : SelectorViewHolder<T>(binding), MarqueeViewHolder {
 
         abstract fun getType(): Int
 

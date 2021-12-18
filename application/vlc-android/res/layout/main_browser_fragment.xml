@@ -91,42 +91,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/local_browser_entry"
                 app:title="@string/network_browsing" />
 
-            <TextView
-                android:id="@+id/title_others"
-                android:layout_width="wrap_content"
+            <org.videolan.vlc.gui.view.TitleListView
+                android:id="@+id/menu_items_entry"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                style="@style/Theme.VLC.HorizontalListTitle"
-                android:text="其它"
-                android:layout_marginStart="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/network_browser_entry" />
-
-            <Button
-                android:id="@+id/btn_show_history"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
-                android:textColor="?attr/list_title"
-                android:textSize="16sp"
-                android:drawableLeft="@drawable/ic_menu_history"
-                android:text="观看历史"
-                app:layout_constraintTop_toBottomOf="@+id/title_others"
-                app:layout_constraintVertical_chainStyle="packed" />
-
-            <Button
-                android:id="@+id/btn_show_preferences"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
-                android:textColor="?attr/list_title"
-                android:textSize="16sp"
-                android:drawableLeft="@drawable/ic_menu_preferences"
-                android:text="设置"
-                app:layout_constraintTop_toBottomOf="@+id/btn_show_history"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintTop_toBottomOf="@+id/network_browser_entry"
+                app:title="其它" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>
