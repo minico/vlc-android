@@ -51,13 +51,8 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.donations.VLCBilling
-import org.videolan.vlc.extensions.ExtensionManagerService
-import org.videolan.vlc.extensions.ExtensionsManager
-import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.*
 import org.videolan.vlc.gui.browser.KEY_MEDIA
-import org.videolan.vlc.gui.helpers.INavigator
-import org.videolan.vlc.gui.helpers.Navigator
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.interfaces.Filterable
@@ -72,9 +67,7 @@ private const val TAG = "VLC/MainActivity"
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class MainActivity : ContentActivity(),
-        ExtensionManagerService.ExtensionManagerActivity,
-        INavigator by Navigator() {
+class MainActivity : ContentActivity() {
     var refreshing: Boolean = false
         set(value) {
             field = value
