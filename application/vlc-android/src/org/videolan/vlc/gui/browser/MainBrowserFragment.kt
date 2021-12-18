@@ -247,7 +247,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         favoritesEntry.loading.showNoMedia = false
         favoritesEntry.loading.emptyText = R.string.no_favorite
         val favoritesBrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true, inCards = !displayInList)
-        val favoritesAdapter = BaseBrowserAdapter(favoritesBrowserContainer)
+        val favoritesAdapter = BaseBrowserAdapter(favoritesBrowserContainer, true)
         favoritesEntry.list.adapter = favoritesAdapter
         favoritesViewModel = BrowserFavoritesModel(requireContext())
         containerAdapterAssociation[favoritesBrowserContainer] = Pair(favoritesAdapter, favoritesViewModel)

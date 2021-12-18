@@ -62,7 +62,7 @@ import java.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
+open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>, isBookmark: Boolean = false) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
 
     protected val TAG = "VLC/BaseBrowserAdapter"
 
@@ -81,9 +81,11 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     internal var mediaCount = 0
     private var networkRoot = false
     private var specialIcons = false
+    private var isBookmark = false
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
 
     init {
+        this.isBookmark = isBookmark
         val root = browserContainer.isRootDirectory
         val fileBrowser = browserContainer.isFile
         val filesRoot = root && fileBrowser
@@ -156,6 +158,10 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         if (networkRoot || (isFavorite && getProtocol(media)?.contains("file") == false)) vh.bindingContainer.setProtocol(getProtocol(media))
         vh.bindingContainer.setCover(getIcon(media, specialIcons))
         vh.selectView(multiSelectHelper.isSelected(position))
+
+        if (position == 0 && isBookmark) {
+            vh.binding.root.requestFocus()
+        }
     }
 
     override fun onViewRecycled(holder: ViewHolder<ViewDataBinding>) {
