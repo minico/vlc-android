@@ -469,7 +469,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             container.post {
 
                 //On TV, seek text and animation should be centered in parent
-                if (isTv) {
+                if (!isTv) {
                     val seekTVConstraintSet = ConstraintSet()
                     seekTVConstraintSet.clone(player.seekContainer)
 
@@ -515,7 +515,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 textAnim.duration = 300
 
                 val anims: ArrayList<Animator> = arrayListOf(firstImageAnim, secondImageAnim)
-                if (!isTv) {
+                if (isTv) {
                     anims.add(backgroundColorAnimator)
                 }
                 if (!seekAnimRunning) {
@@ -544,7 +544,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 player.handler.removeMessages(VideoPlayerActivity.HIDE_SEEK)
                 player.handler.sendEmptyMessageDelayed(VideoPlayerActivity.HIDE_SEEK, SEEK_TIMEOUT)
 
-                if (!isTv) {
+                if (isTv) {
                     container.visibility = View.VISIBLE
                 }
                 seekAnimatorSet.start()
