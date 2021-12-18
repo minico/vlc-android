@@ -530,7 +530,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     fun resetHudLayout() {
         if (!::hudBinding.isInitialized) return
         if (!player.isTv && !AndroidDevices.isChromeBook) {
-            hudBinding.orientationToggle.setVisible()
+            //hudBinding.orientationToggle.setVisible()
         }
     }
 
@@ -696,7 +696,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 hudBinding.playlistPrevious.visibility = if (show) View.VISIBLE else View.INVISIBLE
                 hudBinding.playlistNext.visibility = if (show) View.VISIBLE else View.INVISIBLE
             }
-            hudBinding.orientationToggle.visibility = if (player.isTv || AndroidDevices.isChromeBook) View.INVISIBLE else if (show) View.VISIBLE else View.INVISIBLE
+            //hudBinding.orientationToggle.visibility = if (player.isTv || AndroidDevices.isChromeBook) View.INVISIBLE else if (show) View.VISIBLE else View.INVISIBLE
         }
         if (::hudRightBinding.isInitialized) {
             val secondary = player.displayManager.isSecondary
