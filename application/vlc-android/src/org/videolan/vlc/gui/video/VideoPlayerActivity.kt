@@ -235,7 +235,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         Log.i(TAG, "No video track, open in audio mode")
                         switchToAudioMode(true)
                     }
-                    LOADING_ANIMATION -> startLoading()
+                    LOADING_ANIMATION -> if(!isShowing) startLoading()
                     HIDE_INFO -> overlayDelegate.hideOverlay(true)
                     SHOW_INFO -> overlayDelegate.showOverlay()
                     HIDE_SEEK -> touchDelegate.hideSeekOverlay()
@@ -912,6 +912,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        val seekBar: SeekBar = findViewById(R.id.player_overlay_seekbar)
         if (service == null || keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B)
             return super.onKeyDown(keyCode, event)
         if (isOptionsListShowing) return false
@@ -1001,10 +1002,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
                     pause();
                     overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT, false)
-                    seekBar = findViewById(R.id.player_overlay_seekbar)
-                    seekBar?.requestFocus()
                     return true
-                } else if (isShowing) {
+                } else if (isShowing && !seekBar!!.isFocused) {
                     touchDelegate.seekDelta(-10000)
                 }
             }
@@ -1016,10 +1015,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
                     pause();
                     overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT, false)
-                    //seekBar = findViewById(R.id.player_overlay_seekbar)
-                    //seekBar?.requestFocus()
                     return true
-                } else if (isShowing) {
+                } else if (isShowing && !seekBar!!.isFocused) {
                     touchDelegate.seekDelta(10000)
                 }
             }
@@ -1037,6 +1034,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     else
                         service?.updateViewpoint(0f, -5f, 0f, 0f, false)
                     return true
+                } else if (isShowing) {
+                    seekBar?.setFocusable(false)
+                    seekBar?.setFocusableInTouchMode(false)
                 }
             }
             KeyEvent.KEYCODE_DPAD_DOWN -> {
@@ -1050,6 +1050,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 } else if (!isShowing && fov != 0f) {
                     service?.updateViewpoint(0f, 5f, 0f, 0f, false)
                     return true
+                } else if (isShowing) {
+                    seekBar?.setFocusable(true)
+                    seekBar?.setFocusableInTouchMode(true)
                 }
             }
             KeyEvent.KEYCODE_DPAD_CENTER -> {
