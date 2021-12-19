@@ -290,6 +290,11 @@ class MainActivity : ContentActivity() {
         shouldExt = false
 
         val ft = supportFragmentManager.beginTransaction()
+
+        for (i in 0 until supportFragmentManager.getBackStackEntryCount()) {
+            supportFragmentManager.popBackStack()
+        }
+
         val next = if (item.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
         else FileBrowserFragment()
         fileListFragment.viewModel.saveList(item)
