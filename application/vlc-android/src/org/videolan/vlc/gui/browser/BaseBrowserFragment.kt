@@ -268,15 +268,18 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         val ctx = activity
         if (ctx == null || !isResumed || isRemoving) return
         val ft = ctx.supportFragmentManager.beginTransaction()
-        val next = if (media.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
-             else FileBrowserFragment()
+        val next = createFragment()
         viewModel.saveList(media)
         next.arguments = bundleOf(KEY_MEDIA to media)
         if (save) ft.addToBackStack(if (isRootDirectory) "root" else if (currentMedia != null) currentMedia?.uri.toString() else mrl!!)
         if (BuildConfig.DEBUG) for (i in 0 until ctx.supportFragmentManager.backStackEntryCount) {
             Log.d(this::class.java.simpleName, "Adding to back stack from PathAdapter: ${ctx.supportFragmentManager.getBackStackEntryAt(i).name}")
         }
-        ft.replace(R.id.file_list_fragment_container, next, media.title)
+        if (this is FilePickerFragment) {
+            ft.replace(R.id.fragment_placeholder, next, media.title)
+        } else {
+            ft.replace(R.id.file_list_fragment_container, next, media.title)
+        }
         ft.commit()
     }
 
