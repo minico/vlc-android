@@ -401,11 +401,11 @@ open class AudioPlayerContainerActivity : BaseActivity() {
 
     private fun registerLiveData() {
         PlaylistManager.showAudioPlayer.observe(this, { showPlayer ->
-            if (showPlayer == true) showAudioPlayer()
-            else {
-                hideAudioPlayer()
-                if (isAudioPlayerReady) playerBehavior.lock(true)
-            }
+//            if (showPlayer == true) showAudioPlayer()
+//            else {
+//                hideAudioPlayer()
+//                if (isAudioPlayerReady) playerBehavior.lock(true)
+//            }
         })
         MediaParsingService.progress.observe(this, { scanProgress ->
             if (scanProgress == null || !Medialibrary.getInstance().isWorking) {
