@@ -248,7 +248,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
                 return true
             }
             return (position < dataset.size && position >= 0
-                    && browserContainer.onLongClick(v, position, dataset[position]))
+                    && browserContainer.onLongClick(itemView, position, dataset[position]))
         }
 
         override fun isSelected(): Boolean {

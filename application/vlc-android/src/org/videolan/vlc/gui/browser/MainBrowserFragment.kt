@@ -418,6 +418,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         }
 
         override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
+            v.clearFocus();
             val selItem = item as MediaWrapper
             lifecycleScope.launch(Dispatchers.IO) { browserFavRepository.deleteBrowserFav(selItem?.uri) }
             return true
