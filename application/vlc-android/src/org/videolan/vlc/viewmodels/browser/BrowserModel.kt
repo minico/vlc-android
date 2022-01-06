@@ -78,10 +78,12 @@ open class BrowserModel(
     fun browseRoot() = provider.browseRoot()
 
     @MainThread
-    override fun sort(sort: Int) {
+    override fun sort(sort: Int, keepLastSortOrder: Boolean) {
         viewModelScope.launch {
             this@BrowserModel.sort = sort
-            desc = !desc
+            if (!keepLastSortOrder) {
+                desc = !desc
+            }
             if (tv) provider.desc = desc
             val comp = if (tv) {
                 if (desc) tvDescComp else tvAscComp

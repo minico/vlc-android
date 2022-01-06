@@ -223,8 +223,8 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         }
     }
 
-    protected open fun sortBy(sort: Int) {
-        viewModel.sort(sort)
+    protected open fun sortBy(sort: Int, keepLastSortOrder: Boolean = false) {
+        viewModel.sort(sort, keepLastSortOrder)
     }
 
     fun restoreMultiSelectHelper() {

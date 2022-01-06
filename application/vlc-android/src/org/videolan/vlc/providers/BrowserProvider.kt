@@ -227,7 +227,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 position > 0 -> value[position - 1]
                 else -> null
             }
-            ModelsHelper.getHeader(context, Medialibrary.SORT_ALPHA, item, previous)?.let {
+            ModelsHelper.getHeader(context, Medialibrary.SORT_FILENAME, item, previous)?.let {
                 privateHeaders.put(position, it)
             }
         }

@@ -67,7 +67,7 @@ class MediaScrapingBrowserViewModel(context: Context, val category: Long) : Sort
 
     override val provider = MediaScrapingMovieProvider(context, if (category == HEADER_TV_SHOW) MediaMetadataType.TV_SHOW else MediaMetadataType.MOVIE)
 
-    override fun sort(sort: Int) {
+    override fun sort(sort: Int, keepLastSortOrder: Boolean) {
         provider.sort(sort)
     }
 

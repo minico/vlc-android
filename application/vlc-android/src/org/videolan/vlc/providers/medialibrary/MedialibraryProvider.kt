@@ -75,7 +75,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     abstract fun getPage(loadSize: Int, startposition: Int): Array<T>
     abstract fun getAll(): Array<out T>
 
-    override fun sort(sort: Int) {
+    override fun sort(sort: Int, keepLastSortOrder: Boolean) {
         if (canSortBy(sort)) {
             desc = when (this.sort) {
                 Medialibrary.SORT_DEFAULT -> sort == Medialibrary.SORT_ALPHA
