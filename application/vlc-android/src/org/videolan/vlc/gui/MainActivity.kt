@@ -277,8 +277,7 @@ class MainActivity : ContentActivity() {
             supportFragmentManager.popBackStack()
         }
 
-        val next = if (item.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
-        else FileBrowserFragment()
+        val next = if (item.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment() else FileBrowserFragment()
         fileListFragment.viewModel.saveList(item)
         next.arguments = bundleOf(KEY_MEDIA to item)
         //ft.addToBackStack(if (fileListFragment.isRootDirectory) "root"

@@ -13,6 +13,9 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.*
 import org.videolan.vlc.PlaybackService
+import java.text.Collator
+import java.util.*
+import kotlin.Comparator
 import kotlin.math.floor
 
 object ModelsHelper {
@@ -168,8 +171,8 @@ object ModelsHelper {
             }
         }
         SORT_FILENAME -> {
-            val title = FileUtils.getFileNameFromPath((item as? MediaWrapper)?.uri.toString())
-            val aboveTitle = FileUtils.getFileNameFromPath((aboveItem as? MediaWrapper)?.uri.toString())
+            val title = item.title
+            val aboveTitle = aboveItem?.title ?: ""
             val letter = if (title.isEmpty() || !Character.isLetter(title[0]) || item.isSpecialItem()) "#" else title.substring(0, 1).toUpperCase()
             if (aboveItem == null) letter
             else {
@@ -209,7 +212,7 @@ interface RefreshModel {
 }
 
 interface SortModule {
-    fun sort(sort: Int)
+    fun sort(sort: Int, keepLastSortOrder: Boolean = false)
     fun canSortByName() = true
     fun canSortByFileNameName() = false
     fun canSortByDuration() = false
@@ -248,7 +251,8 @@ val ascComp by lazy {
             if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
             else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
         }
-        item1?.title?.toLowerCase()?.compareTo(item2?.title?.toLowerCase() ?: "") ?: -1
+        val myCollator: Collator = Collator.getInstance(Locale.CHINA)
+        myCollator.compare(item1?.title?.toLowerCase(), item2?.title?.toLowerCase()) ?: -1
     }
 }
 val descComp by lazy {
@@ -259,7 +263,8 @@ val descComp by lazy {
             if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
             else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
         }
-        item2?.title?.toLowerCase()?.compareTo(item1?.title?.toLowerCase() ?: "") ?: -1
+        val myCollator: Collator = Collator.getInstance(Locale.CHINA)
+        myCollator.compare(item2?.title?.toLowerCase(), item1?.title?.toLowerCase()) ?: -1
     }
 }
 

@@ -32,7 +32,7 @@ abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
         refresh()
     }
 
-    override fun sort(sort: Int) { providers.forEach { it.sort(sort) } }
+    override fun sort(sort: Int, keepLastSortOrder: Boolean) { providers.forEach { it.sort(sort) } }
 
     fun isFiltering() = filterQuery != null
 
