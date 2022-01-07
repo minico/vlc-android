@@ -104,7 +104,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
 
     override fun refresh() {
         if (networkMonitor.connected)
-            super.refresh()
+            super.onRefresh()
         else {
             updateEmptyView()
             adapter.clear()
