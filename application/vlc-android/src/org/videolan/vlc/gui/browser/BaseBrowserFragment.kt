@@ -133,7 +133,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         menu.findItem(R.id.ml_menu_filter)?.isVisible = enableSearchOption()
         menu.findItem(R.id.ml_menu_sortby)?.isVisible = !isRootDirectory
         menu.findItem(R.id.ml_menu_sortby_media_number)?.isVisible = false
-        menu.findItem(R.id.ml_menu_add_playlist)?.isVisible = !isRootDirectory
+        menu.findItem(R.id.ml_menu_add_playlist)?.isVisible = false
         addPlaylistFolderOnly = menu.findItem(R.id.folder_add_playlist)
         addPlaylistFolderOnly.isVisible = adapter.mediaCount > 0
         val browserShowAllFiles = menu.findItem(R.id.browser_show_all_files)

@@ -57,7 +57,8 @@
             <item
                     android:orderInCategory="2"
                     android:id="@+id/ml_menu_sortby_name"
-                    android:title="@string/sortby_name"/>
+                    android:title="@string/sortby_name"
+                    android:visible="false"/>
             <item
                     android:orderInCategory="2"
                     android:id="@+id/ml_menu_sortby_filename"
@@ -86,7 +87,7 @@
                     android:orderInCategory="2"
                     android:id="@+id/ml_menu_sortby_last_modified"
                     android:title="@string/sortby_last_modified_date"
-                    android:visible="false"/>
+                    android:visible="true"/>
             <item
                     android:orderInCategory="2"
                     android:id="@+id/ml_menu_sortby_number"
