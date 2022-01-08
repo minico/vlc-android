@@ -30,7 +30,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
 
     fun init(context: Context) : SharedPreferences{
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        showVideoThumbs = prefs.getBoolean(SHOW_VIDEO_THUMBNAILS, true)
+        showVideoThumbs = prefs.getBoolean(SHOW_VIDEO_THUMBNAILS, false)
         tvUI = prefs.getBoolean(PREF_TV_UI, false)
         listTitleEllipsize = prefs.getString(LIST_TITLE_ELLIPSIZE, "0")?.toInt() ?: 0
         videoHudDelay = prefs.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
