@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.vlc.util.ascComp
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi

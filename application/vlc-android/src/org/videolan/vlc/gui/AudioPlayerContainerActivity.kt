@@ -131,7 +131,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         }
         super.onCreate(savedInstanceState)
         volumeControlStream = AudioManager.STREAM_MUSIC
-        registerLiveData()
+        //registerLiveData()
     }
 
     protected open fun initAudioPlayerContainerActivity() {

@@ -105,8 +105,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     protected lateinit var binding: DirectoryBrowserBinding
     protected lateinit var browserFavRepository: BrowserFavRepository
 
-    private var needSort:Boolean = true
-
     protected abstract fun createFragment(): Fragment
     protected abstract fun browseRoot()
 
@@ -163,8 +161,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         binding.networkList.adapter = adapter
         registerSwiperRefreshlayout()
         viewModel.dataset.observe(viewLifecycleOwner, { mediaLibraryItems ->
-            if (needSort) sortBy(Medialibrary.SORT_FILENAME, true)//only sort for the 1st time to avoid sort recursively
-            needSort = false
             adapter.update(mediaLibraryItems!!)
             if (::addPlaylistFolderOnly.isInitialized) addPlaylistFolderOnly.isVisible = adapter.mediaCount > 0
         })
@@ -289,7 +285,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onRefresh() {
-        needSort = true
         savedPosition = layoutManager.findFirstCompletelyVisibleItemPosition()
         viewModel.refresh()
     }

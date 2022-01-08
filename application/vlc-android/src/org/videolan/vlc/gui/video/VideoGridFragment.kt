@@ -189,9 +189,9 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         return true
     }
 
-    override fun sortBy(sort: Int, keepLastSortOrder: Boolean) {
+    override fun sortBy(sort: Int) {
         videoListAdapter.showFilename.set(sort == Medialibrary.SORT_FILENAME)
-        super.sortBy(sort, keepLastSortOrder)
+        super.sortBy(sort)
     }
 
     private fun changeGroupingType(type: VideoGroupingType) {

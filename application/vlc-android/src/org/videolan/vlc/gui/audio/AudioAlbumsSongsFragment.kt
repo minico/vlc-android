@@ -154,8 +154,8 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         })
     }
 
-    override fun sortBy(sort: Int, keepLastSortOrder: Boolean) {
-        viewModel.providers[currentTab].sort(sort, keepLastSortOrder)
+    override fun sortBy(sort: Int) {
+        viewModel.providers[currentTab].sort(sort)
     }
 
     override fun getCurrentAdapter() = adapters[currentTab]

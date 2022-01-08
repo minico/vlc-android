@@ -274,7 +274,6 @@ class MainActivity : ContentActivity() {
         }
 
         val next = if (item.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment() else FileBrowserFragment()
-        fileListFragment.viewModel.saveList(item)
         next.arguments = bundleOf(KEY_MEDIA to item)
         //ft.addToBackStack(if (fileListFragment.isRootDirectory) "root"
         //else if (fileListFragment.currentMedia != null) fileListFragment.currentMedia?.uri.toString() else fileListFragment.mrl!!)
