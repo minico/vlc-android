@@ -108,6 +108,9 @@ import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.lang.Runnable
 import kotlin.math.roundToInt
+import android.content.DialogInterface
+import kotlinx.android.synthetic.main.audio_player.*
+import kotlinx.android.synthetic.main.search_item.*
 
 @Suppress("DEPRECATION")
 @ObsoleteCoroutinesApi
@@ -361,7 +364,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private val serviceReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action == PLAY_FROM_SERVICE) onNewIntent(intent)
-            else if (intent.action == EXIT_PLAYER) exitOK()
+            else if (intent.action == EXIT_PLAYER) exitOK(false)
         }
     }
 
@@ -873,8 +876,27 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
-    private fun exitOK() {
-        exit(Activity.RESULT_OK)
+    private fun exitOK(exitByUser: Boolean = true) {
+        if (!exitByUser) {
+            alertDialog = AlertDialog.Builder(this).create()
+            alertDialog!!.setTitle("VLC 播放器")
+            if (service!!.lastLength - service!!.lastTime < 3000) {
+                alertDialog!!.setMessage("\"" + intent.extras?.getString(PLAY_EXTRA_ITEM_TITLE) + "\"" + " 播放结束")
+            } else {
+                alertDialog!!.setMessage("\"" + intent.extras?.getString(PLAY_EXTRA_ITEM_TITLE) + "\"" + " 播放错误")
+            }
+            alertDialog!!.setButton(
+                AlertDialog.BUTTON_NEUTRAL, "OK"
+            ) { dialog, which ->
+                run {
+                    dialog.dismiss()
+                    exit(Activity.RESULT_OK)
+                }
+            }
+            alertDialog!!.show()
+        } else {
+            exit(Activity.RESULT_OK)
+        }
     }
 
     override fun onTrackballEvent(event: MotionEvent): Boolean {
