@@ -62,7 +62,7 @@ import java.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>, isBookmark: Boolean = false) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
+open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>, isBookmark: Boolean = false, isFileBrowser: Boolean = false) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
 
     protected val TAG = "VLC/BaseBrowserAdapter"
 
@@ -82,10 +82,12 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     private var networkRoot = false
     private var specialIcons = false
     private var isBookmark = false
+    private var isFileBrowser = false
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
 
     init {
         this.isBookmark = isBookmark
+        this.isFileBrowser = isFileBrowser
         val root = browserContainer.isRootDirectory
         val fileBrowser = browserContainer.isFile
         val filesRoot = root && fileBrowser
@@ -158,7 +160,9 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         if (networkRoot || (isFavorite && getProtocol(media)?.contains("file") == false)) vh.bindingContainer.setProtocol(getProtocol(media))
         vh.bindingContainer.setCover(getIcon(media, specialIcons))
         vh.selectView(multiSelectHelper.isSelected(position))
-
+        if (isFileBrowser) {
+            vh.binding.root.nextFocusRightId = R.id.ml_menu_filter
+        }
         if (position == 0 && isBookmark) {
             vh.binding.root.requestFocus()
         }
