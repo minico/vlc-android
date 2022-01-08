@@ -157,7 +157,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         val toolbar: Toolbar? = activity?.findViewById(R.id.main_toolbar)
         toolbar?.title = getTitle()
         toolbar?.setLogo(R.drawable.ic_am_folder)
-        if (!this::adapter.isInitialized) adapter = BaseBrowserAdapter(this)
+        if (!this::adapter.isInitialized) adapter = BaseBrowserAdapter(this, false, true)
         layoutManager = LinearLayoutManager(activity)
         binding.networkList.layoutManager = layoutManager
         binding.networkList.adapter = adapter
