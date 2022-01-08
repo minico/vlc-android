@@ -113,8 +113,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     @Volatile
     private var notificationShowing = false
     private var prevUpdateInCarMode = true
-    private var lastTime = 0L
-    private var lastLength = 0L
+    public var lastTime = 0L
+    public var lastLength = 0L
     private var lastChapter = 0
     private var lastChaptersCount = 0
     private var widget = 0
