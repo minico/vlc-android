@@ -26,7 +26,6 @@ package org.videolan.tools.livedata
 
 import androidx.lifecycle.MutableLiveData
 
-
 class LiveDataset<T> : MutableLiveData<MutableList<T>>() {
 
     private val emptyList = mutableListOf<T>()

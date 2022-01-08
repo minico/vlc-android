@@ -68,11 +68,11 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = Medialibrary.getInstance()
-    var desc : Boolean? = null
+    var desc : Boolean? = false
     private val comparator : Comparator<MediaLibraryItem>?
         get() = when(desc) {
-            true -> tvDescComp
-            false -> tvAscComp
+            true -> descComp
+            false -> ascComp
             else -> null
         }
 
@@ -183,8 +183,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open suspend fun refreshImpl() {
-        val files = filesFlow().mapNotNull { findMedia(it) }.toList()
-        dataset.value = files as MutableList<MediaLibraryItem>
+        val files: MutableList<MediaLibraryItem> = filesFlow().mapNotNull { findMedia(it) }.toList() as MutableList<MediaLibraryItem>
+        dataset.value = files.apply { sortWith(ascComp) }
         computeHeaders(files)
         parseSubDirectories(files)
         loading.postValue(false)

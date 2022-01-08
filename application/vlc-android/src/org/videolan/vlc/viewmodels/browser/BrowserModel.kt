@@ -30,6 +30,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.CoroutineContextProvider
@@ -78,15 +79,13 @@ open class BrowserModel(
     fun browseRoot() = provider.browseRoot()
 
     @MainThread
-    override fun sort(sort: Int, keepLastSortOrder: Boolean) {
+    override fun sort(sort: Int) {
         viewModelScope.launch {
             this@BrowserModel.sort = sort
-            if (!keepLastSortOrder) {
-                desc = !desc
-            }
+            desc = !desc
             if (tv) provider.desc = desc
-            val comp = if (tv) {
-                if (desc) tvDescComp else tvAscComp
+            val comp = if (sort == Medialibrary.SORT_LASTMODIFICATIONDATE) {
+                if (desc) descCompModifiedDate else ascCompModifiedDate
             } else {
                 if (desc) descComp else ascComp
             }

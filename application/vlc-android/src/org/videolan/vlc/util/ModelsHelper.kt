@@ -212,7 +212,7 @@ interface RefreshModel {
 }
 
 interface SortModule {
-    fun sort(sort: Int, keepLastSortOrder: Boolean = false)
+    fun sort(sort: Int)
     fun canSortByName() = true
     fun canSortByFileNameName() = false
     fun canSortByDuration() = false
@@ -252,7 +252,11 @@ val ascComp by lazy {
             else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
         }
         val myCollator: Collator = Collator.getInstance(Locale.CHINA)
-        myCollator.compare(item1?.title?.toLowerCase(), item2?.title?.toLowerCase()) ?: -1
+        if (myCollator.compare(item1?.title?.toLowerCase(), item2?.title?.toLowerCase()) < 0) {
+            return@Comparator -1
+        } else {
+            return@Comparator 1
+        }
     }
 }
 val descComp by lazy {
@@ -264,7 +268,11 @@ val descComp by lazy {
             else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
         }
         val myCollator: Collator = Collator.getInstance(Locale.CHINA)
-        myCollator.compare(item2?.title?.toLowerCase(), item1?.title?.toLowerCase()) ?: -1
+        if (myCollator.compare(item2?.title?.toLowerCase(), item1?.title?.toLowerCase()) < 0) {
+            return@Comparator -1
+        } else {
+            return@Comparator 1
+        }
     }
 }
 
@@ -284,5 +292,33 @@ val tvDescComp by lazy {
         if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
         else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
         item2?.title?.toLowerCase()?.compareTo(item1?.title?.toLowerCase() ?: "") ?: -1
+    }
+}
+
+val ascCompModifiedDate by lazy {
+    Comparator<MediaLibraryItem> { item1, item2 ->
+        val type1 = (item1 as? MediaWrapper)?.type
+        val type2 = (item2 as? MediaWrapper)?.type
+        if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+        else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
+        if ((item1 as? MediaWrapper)!!.getLastModified() < (item2 as? MediaWrapper)!!.getLastModified()) {
+            return@Comparator -1
+        } else {
+            return@Comparator 1
+        }
+    }
+}
+
+val descCompModifiedDate by lazy {
+    Comparator<MediaLibraryItem> { item1, item2 ->
+        val type1 = (item1 as? MediaWrapper)?.type
+        val type2 = (item2 as? MediaWrapper)?.type
+        if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+        else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
+        if ((item2 as? MediaWrapper)!!.getLastModified() < (item1 as? MediaWrapper)!!.getLastModified()) {
+            return@Comparator -1
+        } else {
+            return@Comparator 1
+        }
     }
 }

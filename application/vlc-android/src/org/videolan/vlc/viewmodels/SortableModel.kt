@@ -14,20 +14,18 @@ abstract class SortableModel(protected val context: Context): ViewModel(), Refre
     private val settings = Settings.getInstance(context)
     protected open val sortKey : String = this.javaClass.simpleName
     var sort = settings.getInt(sortKey, Medialibrary.SORT_DEFAULT)
-    var desc = settings.getBoolean("${sortKey}_desc", true)
+    var desc = settings.getBoolean("${sortKey}_desc", false)
 
     var filterQuery : String? = null
 
     fun getKey() = sortKey
 
-    override fun sort(sort: Int, keepLastSortOrder: Boolean) {
+    override fun sort(sort: Int) {
         if (canSortBy(sort)) {
-            if (!keepLastSortOrder) {
-                desc = when (this.sort) {
-                    Medialibrary.SORT_DEFAULT -> sort == Medialibrary.SORT_ALPHA
-                    sort -> !desc
-                    else -> false
-                }
+            desc = when (this.sort) {
+                Medialibrary.SORT_DEFAULT -> sort == Medialibrary.SORT_ALPHA
+                sort -> !desc
+                else -> false
             }
             this.sort = sort
             refresh()
