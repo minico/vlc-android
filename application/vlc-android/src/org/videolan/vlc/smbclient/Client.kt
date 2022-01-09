@@ -4,6 +4,7 @@
  */
 package org.videolan.vlc.smbclient
 
+import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.hierynomus.msdtyp.AccessMask
@@ -18,14 +19,16 @@ import com.hierynomus.smbj.share.DiskShare
 import com.hierynomus.smbj.share.NamedPipe
 import com.hierynomus.smbj.share.PrinterShare
 import com.hierynomus.smbj.share.Share
+import jcifs.context.SingletonContext
 import java.io.IOException
+import java.net.UnknownHostException
 import java.util.Collections
 import java.util.WeakHashMap
 
 object SambaClient {
     @Volatile
     lateinit var authenticator: Authenticator
-
+    private lateinit var settings: SharedPreferences
     private val client = SMBClient()
 
     private val sessions = mutableMapOf<Authority, Session>()
@@ -34,12 +37,17 @@ object SambaClient {
         Collections.synchronizedMap(WeakHashMap<SmbPath, FileInformation>())
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
-    fun getFileLastModifiedDate(path: String): Long {
-        val info = try {
-            val smbPath: SmbPath = SmbPath("", path)
-            getPathInformation(smbPath, false) as? FileInformation
-        } catch (e: ClientException) {
-            e.printStackTrace()
+    fun getFileLastModifiedDate(path: String, user: String, passwd: String): Long {
+        if (path.startsWith("smb://")) {// path = smb://NAS/video/动画片/101斑点狗.mkv
+            val host: String = path.substringAfter("smb://").substringBefore("/")
+            val filePath: String = path.substringAfter("smb://").substringAfter("/")
+            val name: String = filePath.substringBefore("/")
+            val subPath: String = filePath.substringAfter("/")
+            val smbPath: SmbPath = SmbPath(name, subPath, host, user, passwd)
+
+            val info: PathInformation = getPathInformation(smbPath, false)
+            val fileInfo: FileInformation = info as FileInformation
+            return fileInfo.lastWriteTime.toEpochMillis()
         }
         return 0
     }
@@ -48,7 +56,9 @@ object SambaClient {
     @Throws(ClientException::class)
     fun getPathInformation(path: SmbPath, openReparsePoint: Boolean): PathInformation {
         val sharePath = path
-        val session = getSession(Authority("10.0.0.4", 445))
+        val authentication = Authentication(path.user, null, path.passwd)
+        val hostAddress = resolveHostName(path.host)
+        val session = getSession(Authority(hostAddress, 445), authentication)
         if (sharePath.path.isEmpty()) {
             val share = getShare(session, sharePath.name)
             return when (share) {
@@ -105,7 +115,7 @@ object SambaClient {
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     @Throws(ClientException::class)
-    private fun getSession(authority: Authority): Session {
+    private fun getSession(authority: Authority, authentication: Authentication): Session {
         synchronized(sessions) {
             var session = sessions[authority]
             if (session != null) {
@@ -120,7 +130,6 @@ object SambaClient {
             }
             //val authentication = authenticator.getAuthentication(authority)
             //    ?: throw ClientException("No authentication found for $authority")
-            val authentication = Authentication("admin", "WorkGroup", "3753154")
             val hostAddress = authority.host
             val connection = try {
                 client.connect(hostAddress, authority.port)
@@ -159,6 +168,20 @@ object SambaClient {
 
     data class SmbPath(
         val name: String,
-        val path: String
+        val path: String,
+        val host: String,
+        val user: String,
+        val passwd: String
     )
+
+    @Throws(ClientException::class)
+    private fun resolveHostName(hostName: String): String {
+        val nameServiceClient = SingletonContext.getInstance().nameServiceClient
+        val uniAddress = try {
+            nameServiceClient.getByName(hostName)
+        } catch (e: UnknownHostException) {
+            throw ClientException(e)
+        }
+        return uniAddress.hostAddress
+    }
 }

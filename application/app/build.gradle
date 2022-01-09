@@ -44,6 +44,16 @@ android {
     }
 
 
+    configurations.all {
+        c -> c.resolutionStrategy.eachDependency {
+            DependencyResolveDetails dependency ->
+                println dependency.requested.group
+                if (dependency.requested.group == 'org.bouncycastle') {
+                    dependency.useTarget 'org.bouncycastle:bcprov-jdk15to18:1.68'
+                }
+        }
+    }
+
     defaultConfig {
         applicationId rootProject.ext.appId
         minSdkVersion rootProject.ext.minSdkVersion

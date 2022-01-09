@@ -34,9 +34,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VlcLoginDialogBinding
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.resources.AndroidDevices
-import org.videolan.tools.LOGIN_STORE
-import org.videolan.tools.Settings
-import org.videolan.tools.putSingle
+import org.videolan.tools.*
 
 class VlcLoginDialog : VlcDialog<Dialog.LoginDialog, VlcLoginDialogBinding>(), View.OnFocusChangeListener {
 
@@ -62,6 +60,8 @@ class VlcLoginDialog : VlcDialog<Dialog.LoginDialog, VlcLoginDialogBinding>(), V
         vlcDialog.postLogin(binding.login.text.toString().trim(),
                 binding.password.text.toString().trim(), binding.store.isChecked)
         settings.putSingle(LOGIN_STORE, binding.store.isChecked)
+        settings.putSingle(LOGIN_USER_NAME, binding.login.text.toString().trim())
+        settings.putSingle(LOGIN_PASSWORD, binding.password.text.toString().trim())
         dismiss()
     }
 
