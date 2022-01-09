@@ -21,9 +21,12 @@
 package org.videolan.vlc.providers
 
 import android.content.Context
+import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
+import android.telephony.mbms.FileInfo
+import androidx.annotation.RequiresApi
 import androidx.collection.SimpleArrayMap
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
@@ -45,7 +48,12 @@ import org.videolan.resources.util.HeaderProvider
 import org.videolan.tools.*
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.R
+import org.videolan.vlc.smbclient.ClientException
+import org.videolan.vlc.smbclient.FileInformation
+import org.videolan.vlc.smbclient.PathInformation
+import org.videolan.vlc.smbclient.SambaClient
 import org.videolan.vlc.util.*
+import org.videolan.vlc.util.FileUtils
 import java.io.File
 
 const val TAG = "VLC/BrowserProvider"
@@ -58,6 +66,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     val loading = MutableLiveData<Boolean>().apply { value = false }
 
     var mediabrowser: MediaBrowser? = null
+
+    var smbClient: SambaClient = SambaClient
 
     val coroutineContextProvider: CoroutineContextProvider
     private var parsingJob : Job? = null
@@ -326,8 +336,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         return sb.toString()
     }
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     protected open suspend fun findMedia(media: IMedia): MediaLibraryItem? {
         val mw: MediaWrapper = MLServiceLocator.getAbstractMediaWrapper(media)
+        //mw.lastModified = smbClient.getFileLastModifiedDate(mw.uri.toString())
         media.release()
         if (!mw.isMedia()) {
             if (showAll || mw.isBrowserMedia()) return mw
@@ -338,6 +350,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO)) return withContext(coroutineContextProvider.IO) {
             medialibrary.getMedia(uri).apply { if (this != null && this.artworkURL.isNullOrEmpty() && mw.artworkURL?.isNotEmpty() == true) this.artworkURL = mw.artworkURL } ?: mw
         }
+
         return mw
     }
 
