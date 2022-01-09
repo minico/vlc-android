@@ -190,6 +190,12 @@ dependencies {
 
     implementation 'nl.dionsegijn:konfetti:1.2.2'
 
+    //samba
+    implementation 'com.hierynomus:smbj:0.10.0'
+    def kotlinx_coroutines_version = '1.5.1'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
+
     // Tests
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
