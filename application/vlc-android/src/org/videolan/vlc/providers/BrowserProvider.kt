@@ -21,10 +21,8 @@
 package org.videolan.vlc.providers
 
 import android.content.Context
-import android.os.Build
-import android.os.Handler
-import android.os.HandlerThread
-import android.os.Process
+import android.net.Uri
+import android.os.*
 import android.telephony.mbms.FileInfo
 import androidx.annotation.RequiresApi
 import androidx.collection.SimpleArrayMap
@@ -339,7 +337,6 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     protected open suspend fun findMedia(media: IMedia): MediaLibraryItem? {
         val mw: MediaWrapper = MLServiceLocator.getAbstractMediaWrapper(media)
-        //mw.lastModified = smbClient.getFileLastModifiedDate(mw.uri.toString())
         media.release()
         if (!mw.isMedia()) {
             if (showAll || mw.isBrowserMedia()) return mw
@@ -347,8 +344,24 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             else if (!showAll) return null
         }
         val uri = mw.uri
-        if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO)) return withContext(coroutineContextProvider.IO) {
-            medialibrary.getMedia(uri).apply { if (this != null && this.artworkURL.isNullOrEmpty() && mw.artworkURL?.isNotEmpty() == true) this.artworkURL = mw.artworkURL } ?: mw
+        if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO)) {
+            val SDK_INT = Build.VERSION.SDK_INT
+            if (SDK_INT > 8) {
+                val policy: StrictMode.ThreadPolicy = StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build()
+                StrictMode.setThreadPolicy(policy)
+                val path: String = Uri.decode(uri.toString())
+                val user: String = Settings.getInstance(context).getString(LOGIN_USER_NAME, "admin").toString()
+                val passwd: String = Settings.getInstance(context).getString(LOGIN_PASSWORD, "123456").toString()
+                mw.lastModified = smbClient.getFileLastModifiedDate(path, user, passwd)
+            }
+
+            return withContext(coroutineContextProvider.IO) {
+                medialibrary.getMedia(uri).apply {
+                    if (this != null && this.artworkURL.isNullOrEmpty() && mw.artworkURL?.isNotEmpty() == true) this.artworkURL =
+                        mw.artworkURL
+                } ?: mw
+            }
         }
 
         return mw
