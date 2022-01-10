@@ -54,7 +54,7 @@
             android:focusableInTouchMode="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
-            android:minHeight="36dp"
+            android:minHeight="32dp"
             android:onClick="@{holder::onClick}"
             android:onLongClick="@{holder::onLongClick}">
 
@@ -76,8 +76,8 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
                 android:contentDescription="@string/cover_art"
                 android:onClick="@{holder::onImageClick}"
                 android:scaleType="centerCrop"
