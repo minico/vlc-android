@@ -69,7 +69,7 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0, tv: Boolean
     val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
     val isMedia = item.itemType == MediaLibraryItem.TYPE_MEDIA
     if (!Settings.showVideoThumbs && ((isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO) || item.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP) ) {
-        updateImageView(UiTools.getDefaultVideoDrawable(v.context).bitmap, v, binding, tv = tv, card = card)
+        updateImageView(UiTools.getDefaultVideoDrawableBig(v.context).bitmap, v, binding, tv = tv, card = card)
         return
     }
     val isGroup = isMedia && item.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP
