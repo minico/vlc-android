@@ -129,7 +129,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.ml_menu_filter)?.isVisible = enableSearchOption()
-        menu.findItem(R.id.ml_menu_sortby)?.isVisible = !isRootDirectory
+        menu.findItem(R.id.ml_menu_sortby)?.isVisible = false
         menu.findItem(R.id.ml_menu_sortby_media_number)?.isVisible = false
         menu.findItem(R.id.ml_menu_add_playlist)?.isVisible = false
         addPlaylistFolderOnly = menu.findItem(R.id.folder_add_playlist)
