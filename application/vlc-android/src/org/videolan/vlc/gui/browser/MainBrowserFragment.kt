@@ -167,8 +167,8 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
 
-        menu.findItem(R.id.ml_menu_display_grid).isVisible = displayInList
-        menu.findItem(R.id.ml_menu_display_list).isVisible = !displayInList
+        menu.findItem(R.id.ml_menu_display_grid).isVisible = false
+        menu.findItem(R.id.ml_menu_display_list).isVisible = false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
