@@ -334,7 +334,6 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         return sb.toString()
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     protected open suspend fun findMedia(media: IMedia): MediaLibraryItem? {
         val mw: MediaWrapper = MLServiceLocator.getAbstractMediaWrapper(media)
         media.release()

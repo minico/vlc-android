@@ -4,15 +4,13 @@
  */
 package org.videolan.vlc.smbclient
 
-import android.content.SharedPreferences
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.hierynomus.msdtyp.AccessMask
 import com.hierynomus.msfscc.FileAttributes
 import com.hierynomus.mssmb2.SMB2CreateDisposition
 import com.hierynomus.mssmb2.SMB2CreateOptions
 import com.hierynomus.mssmb2.SMB2ShareAccess
 import com.hierynomus.smbj.SMBClient
+import com.hierynomus.smbj.auth.AuthenticationContext
 import com.hierynomus.smbj.common.SMBRuntimeException
 import com.hierynomus.smbj.session.Session
 import com.hierynomus.smbj.share.DiskShare
@@ -26,17 +24,12 @@ import java.util.Collections
 import java.util.WeakHashMap
 
 object SambaClient {
-    @Volatile
-    lateinit var authenticator: Authenticator
-    private lateinit var settings: SharedPreferences
+    private val defaultPort = 445
     private val client = SMBClient()
-
-    private val sessions = mutableMapOf<Authority, Session>()
-
+    private val sessions = mutableMapOf<String, Session>()
     private val directoryFileInformationCache =
         Collections.synchronizedMap(WeakHashMap<SmbPath, FileInformation>())
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun getFileLastModifiedDate(path: String, user: String, passwd: String): Long {
         if (path.startsWith("smb://")) {// path = smb://NAS/video/动画片/101斑点狗.mkv
             val host: String = path.substringAfter("smb://").substringBefore("/")
@@ -52,13 +45,12 @@ object SambaClient {
         return 0
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     @Throws(ClientException::class)
     fun getPathInformation(path: SmbPath, openReparsePoint: Boolean): PathInformation {
         val sharePath = path
-        val authentication = Authentication(path.user, null, path.passwd)
+        val authentication = AuthenticationContext(path.user, path.passwd.toCharArray(), null)
         val hostAddress = resolveHostName(path.host)
-        val session = getSession(Authority(hostAddress, 445), authentication)
+        val session = getSession(hostAddress, authentication)
         if (sharePath.path.isEmpty()) {
             val share = getShare(session, sharePath.name)
             return when (share) {
@@ -113,11 +105,10 @@ object SambaClient {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     @Throws(ClientException::class)
-    private fun getSession(authority: Authority, authentication: Authentication): Session {
+    private fun getSession(host: String, authentication: AuthenticationContext): Session {
         synchronized(sessions) {
-            var session = sessions[authority]
+            var session = sessions[host]
             if (session != null) {
                 val connection = session.connection
                 if (connection.isConnected) {
@@ -125,19 +116,19 @@ object SambaClient {
                 } else {
                     session.closeSafe()
                     connection.closeSafe()
-                    sessions -= authority
+                    sessions -= host
                 }
             }
             //val authentication = authenticator.getAuthentication(authority)
             //    ?: throw ClientException("No authentication found for $authority")
-            val hostAddress = authority.host
+            val hostAddress = host
             val connection = try {
-                client.connect(hostAddress, authority.port)
+                client.connect(hostAddress, defaultPort)
             } catch (e: IOException) {
                 throw ClientException(e)
             }
             session = try {
-                connection.authenticate(authentication.toContext())
+                connection.authenticate(authentication)
             } catch (e: SMBRuntimeException) {
                 // We need to close the connection here, otherwise future authentications reusing it
                 // will receive an exception about no available credits.
@@ -147,7 +138,7 @@ object SambaClient {
             //  expected
             //}
             }!!
-            sessions[authority] = session
+            sessions[host] = session
             return session
         }
     }

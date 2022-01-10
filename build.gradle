@@ -36,7 +36,7 @@ ext {
     versionCode = 3040220
     libvlcVersion = '3.4.5'
     medialibraryVersion = '0.9.5'
-    minSdkVersion = 17
+    minSdkVersion = 19
     targetSdkVersion = 30
     compileSdkVersion = 30
     androidxLegacyVersion = '1.0.0'
