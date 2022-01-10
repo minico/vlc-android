@@ -192,7 +192,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     protected open suspend fun refreshImpl() {
         val files: MutableList<MediaLibraryItem> = filesFlow().mapNotNull { findMedia(it) }.toList() as MutableList<MediaLibraryItem>
-        dataset.value = files.apply { sortWith(ascComp) }
+        dataset.value = files.apply { sortWith(descCompModifiedDate) }
         computeHeaders(files)
         parseSubDirectories(files)
         loading.postValue(false)

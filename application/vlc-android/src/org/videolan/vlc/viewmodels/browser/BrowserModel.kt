@@ -85,7 +85,7 @@ open class BrowserModel(
             desc = !desc
             if (tv) provider.desc = desc
             val comp = if (sort == Medialibrary.SORT_LASTMODIFICATIONDATE) {
-                if (desc) descCompModifiedDate else ascCompModifiedDate
+                if (desc) descCompModifiedDate else descCompModifiedDate
             } else {
                 if (desc) descComp else ascComp
             }
