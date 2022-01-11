@@ -390,7 +390,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
     }
 
-    override fun enableSearchOption() = !isRootDirectory
+    override fun enableSearchOption() = false
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
         getMultiHelper()?.toggleActionMode(true, adapter.itemCount)

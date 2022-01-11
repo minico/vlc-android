@@ -161,7 +161,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         vh.bindingContainer.setCover(getIcon(media, specialIcons))
         vh.selectView(multiSelectHelper.isSelected(position))
         if (isFileBrowser) {
-            vh.binding.root.nextFocusRightId = R.id.ml_menu_filter
+            vh.binding.root.nextFocusRightId = R.id.ml_menu_sortby_filename
         }
         if (position == 0 && isBookmark) {
             vh.binding.root.requestFocus()
