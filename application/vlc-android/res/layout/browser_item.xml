@@ -54,7 +54,7 @@
             android:focusableInTouchMode="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
-            android:minHeight="32dp"
+            android:minHeight="@dimen/audio_browser_item_size"
             android:onClick="@{holder::onClick}"
             android:onLongClick="@{holder::onLongClick}">
 
@@ -108,7 +108,7 @@
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="8dp"
             android:ellipsize="marquee"
             android:lineSpacingMultiplier="1.1"
             android:marqueeRepeatLimit="1"

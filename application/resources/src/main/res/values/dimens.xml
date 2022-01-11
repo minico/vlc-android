@@ -102,7 +102,7 @@
     <dimen name="tab_layout_height">24dp</dimen>
 
     <!-- Audio items -->
-    <dimen name="audio_browser_item_size">40dp</dimen>
+    <dimen name="audio_browser_item_size">36dp</dimen>
     <dimen name="audio_item_header_padding">4dp</dimen>
     <dimen name="audio_item_padding_botom">4dp</dimen>
     <dimen name="audio_item_title_size">14sp</dimen>
