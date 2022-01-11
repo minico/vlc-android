@@ -344,17 +344,20 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         }
         val uri = mw.uri
         if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO)) {
-            val SDK_INT = Build.VERSION.SDK_INT
-            if (SDK_INT > 8) {
-                val policy: StrictMode.ThreadPolicy = StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build()
-                StrictMode.setThreadPolicy(policy)
-                val path: String = Uri.decode(uri.toString())
-                val user: String = Settings.getInstance(context).getString(LOGIN_USER_NAME, "admin").toString()
-                val passwd: String = Settings.getInstance(context).getString(LOGIN_PASSWORD, "123456").toString()
-                mw.lastModified = smbClient.getFileLastModifiedDate(path, user, passwd)
+            val path: String = Uri.decode(uri.toString())
+            if (path.startsWith("smb://"))  {
+                val SDK_INT = Build.VERSION.SDK_INT
+                if (SDK_INT > 8) {
+                    val policy: StrictMode.ThreadPolicy = StrictMode.ThreadPolicy.Builder()
+                        .permitAll().build()
+                    StrictMode.setThreadPolicy(policy)
+                    val user: String =
+                        Settings.getInstance(context).getString(LOGIN_USER_NAME, "admin").toString()
+                    val passwd: String =
+                        Settings.getInstance(context).getString(LOGIN_PASSWORD, "123456").toString()
+                    mw.lastModified = smbClient.getFileLastModifiedDate(path, user, passwd)
+                }
             }
-
             return withContext(coroutineContextProvider.IO) {
                 medialibrary.getMedia(uri).apply {
                     if (this != null && this.artworkURL.isNullOrEmpty() && mw.artworkURL?.isNotEmpty() == true) this.artworkURL =
