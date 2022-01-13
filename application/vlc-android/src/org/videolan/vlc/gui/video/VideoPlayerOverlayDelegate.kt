@@ -67,6 +67,7 @@ import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.UiTools.showVideoTrack
+import org.videolan.vlc.gui.video.VideoPlayerActivity.Companion.OVERLAY_TIMEOUT
 import org.videolan.vlc.gui.view.PlayerProgress
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
@@ -276,7 +277,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      */
     fun showOverlay(forceCheck: Boolean = false) {
         if (forceCheck) overlayTimeout = 0
-        showOverlayTimeout(0)
+        showOverlayTimeout(OVERLAY_TIMEOUT)
     }
 
     /**
