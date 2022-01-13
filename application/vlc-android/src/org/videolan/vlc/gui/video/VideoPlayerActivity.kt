@@ -395,7 +395,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         displayManager = DisplayManager(this, PlaybackService.renderer, false, enableCloneMode, isBenchmark)
         setContentView(if (displayManager.isPrimary) R.layout.player else R.layout.player_remote_control)
 
-
         rootView = findViewById(R.id.player_root)
 
         overlayDelegate.playlist = findViewById(R.id.video_playlist)
@@ -934,7 +933,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        val seekBar: SeekBar = findViewById(R.id.player_overlay_seekbar)
+        seekBar = findViewById(R.id.player_overlay_seekbar)
+
         if (service == null || keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B)
             return super.onKeyDown(keyCode, event)
         if (isOptionsListShowing) return false
@@ -1025,7 +1025,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     pause();
                     overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT, false)
                     return true
-                } else if (isShowing && !seekBar!!.isFocused) {
+                } else if (isShowing && seekBar != null && !seekBar!!.isFocused) {
                     touchDelegate.seekDelta(-10000)
                 }
             }
@@ -1038,7 +1038,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     pause();
                     overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT, false)
                     return true
-                } else if (isShowing && !seekBar!!.isFocused) {
+                } else if (isShowing && seekBar != null && !seekBar!!.isFocused) {
                     touchDelegate.seekDelta(10000)
                 }
             }
@@ -2105,7 +2105,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         private const val KEY_TIME = "saved_time"
         private const val KEY_LIST = "saved_list"
         private const val KEY_URI = "saved_uri"
-        const val OVERLAY_TIMEOUT = 4000
+        const val OVERLAY_TIMEOUT = 2000
         const val OVERLAY_INFINITE = -1
         const val FADE_OUT = 1
         const val FADE_OUT_INFO = 2
@@ -2203,4 +2203,9 @@ fun setConstraintPercent(view: Guideline, percent: Float) {
 @BindingAdapter("mediamax")
 fun setProgressMax(view: SeekBar, length: Long) {
     view.max =  if (length == 0L) NO_LENGTH_PROGRESS_MAX else length.toInt()
+    if (length < 60000) {
+        view.keyProgressIncrement = 1000 // 1 sec
+    } else {
+        view.keyProgressIncrement = 60000 // 1 min
+    }
 }
