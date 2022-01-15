@@ -98,12 +98,17 @@ class MainActivity : ContentActivity() {
         setContentView(R.layout.main)
         //initAudioPlayerContainerActivity()
         //setupNavigation(savedInstanceState)
-        fileListFragment = FileBrowserFragment()
-        navigationFragment = MainBrowserFragment()
-        //navigationFragment.listener = fileListFragment
-        supportFragmentManager.commit {
-            add(R.id.navigation_fragment_container, navigationFragment)
-            add(R.id.file_list_fragment_container, fileListFragment)
+        if (savedInstanceState == null) {
+            fileListFragment = FileBrowserFragment()
+            navigationFragment = MainBrowserFragment()
+            //navigationFragment.listener = fileListFragment
+            supportFragmentManager.commit {
+                add(R.id.navigation_fragment_container, navigationFragment)
+                add(R.id.file_list_fragment_container, fileListFragment)
+            }
+        }
+        else {
+
         }
         /* Set up the action bar */
         prepareActionBar()
