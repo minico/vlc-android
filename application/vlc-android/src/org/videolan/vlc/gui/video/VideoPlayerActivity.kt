@@ -154,6 +154,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private var wasPaused = false
     private var savedTime: Long = -1
 
+    private var backPressed: Boolean = false
+
     /**
      * For uninterrupted switching between audio and video mode
      */
@@ -876,7 +878,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     private fun exitOK(exitByUser: Boolean = true) {
-        if (!exitByUser) {
+        if (!exitByUser && !backPressed) {
             alertDialog = AlertDialog.Builder(this).create()
             alertDialog!!.setTitle("VLC 播放器")
             if (service!!.lastLength - service!!.lastTime < 3000) {
@@ -927,6 +929,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         } else if (isShowing && !isLocked) {
             overlayDelegate.hideOverlay(true)
         } else {
+            backPressed = true
             exitOK()
             super.onBackPressed()
         }
