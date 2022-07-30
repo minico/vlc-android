@@ -1,6 +1,7 @@
 package org.videolan.vlc.util
 
 import android.content.Context
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.MediaPlayer
@@ -297,11 +298,19 @@ val tvDescComp by lazy {
 
 val ascCompModifiedDate by lazy {
     Comparator<MediaLibraryItem> { item1, item2 ->
-        val type1 = (item1 as? MediaWrapper)?.type
-        val type2 = (item2 as? MediaWrapper)?.type
+        val mediaItem1 = item1 as? MediaWrapper
+        val mediaItem2 = item2 as? MediaWrapper
+        if (mediaItem1 == null) return@Comparator -1
+        else if (mediaItem2 == null) return@Comparator 1
+
+        val type1 = mediaItem1.type
+        val type2 = mediaItem2.type
         if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
         else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-        if ((item1 as? MediaWrapper)!!.getLastModified() < (item2 as? MediaWrapper)!!.getLastModified()) {
+
+        if (mediaItem1.getLastModified() == mediaItem2.getLastModified()) {
+            return@Comparator 0
+        } else if (mediaItem1.getLastModified() < mediaItem2.getLastModified()) {
             return@Comparator -1
         } else {
             return@Comparator 1
@@ -311,11 +320,20 @@ val ascCompModifiedDate by lazy {
 
 val descCompModifiedDate by lazy {
     Comparator<MediaLibraryItem> { item1, item2 ->
-        val type1 = (item1 as? MediaWrapper)?.type
-        val type2 = (item2 as? MediaWrapper)?.type
+        val mediaItem1 = item1 as? MediaWrapper
+        val mediaItem2 = item2 as? MediaWrapper
+        if (mediaItem1 == null) return@Comparator -1
+        else if (mediaItem2 == null) return@Comparator 1
+
+        val type1 = mediaItem1.type
+        val type2 = mediaItem2.type
         if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
         else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-        if ((item2 as? MediaWrapper)!!.getLastModified() < (item1 as? MediaWrapper)!!.getLastModified()) {
+        Log.d("sort by date", "date modified:" + mediaItem1.getLastModified() + " file:" + mediaItem1.uri);
+        Log.d("sort by date", "date modified:" + mediaItem2.getLastModified() + " file:" + mediaItem2.uri);
+        if (mediaItem1.getLastModified() == mediaItem2.getLastModified()) {
+            return@Comparator 0
+        } else if (mediaItem2.getLastModified() < mediaItem1.getLastModified()) {
             return@Comparator -1
         } else {
             return@Comparator 1
