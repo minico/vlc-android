@@ -237,12 +237,12 @@ class MainActivity : ContentActivity() {
     }
 
     private fun forceRefresh(current: Fragment?) {
-        if (!mediaLibrary.isWorking) {
+        //if (!mediaLibrary.isWorking) {
             if (current != null && current is IRefreshable)
                 (current as IRefreshable).refresh()
             else
                 reloadLibrary()
-        }
+        //}
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
