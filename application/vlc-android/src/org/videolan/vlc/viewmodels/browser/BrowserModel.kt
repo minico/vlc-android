@@ -66,10 +66,10 @@ open class BrowserModel(
     private val tv = Settings.showTvUi
 
     override val provider: BrowserProvider = when (type) {
-        TYPE_PICKER -> FilePickerProvider(context, dataset, url, pickerType = pickerType).also { if (tv) it.desc = desc }
-        TYPE_NETWORK -> NetworkProvider(context, dataset, url, showHiddenFiles).also { if (tv) it.desc = desc }
-        TYPE_STORAGE -> StorageProvider(context, dataset, url, showHiddenFiles)
-        else -> FileBrowserProvider(context, dataset, url, showHiddenFiles = showHiddenFiles, showDummyCategory = showDummyCategory).also { if (tv) it.desc = desc }
+        TYPE_PICKER -> FilePickerProvider(context, dataset, url, pickerType = pickerType).also { it.desc = desc }
+        TYPE_NETWORK -> NetworkProvider(context, dataset, url, showHiddenFiles).also { it.desc = desc }
+        TYPE_STORAGE -> StorageProvider(context, dataset, url, showHiddenFiles).also { it.desc = desc }
+        else -> FileBrowserProvider(context, dataset, url, showHiddenFiles = showHiddenFiles, showDummyCategory = showDummyCategory).also { it.desc = desc }
     }
 
     override val loading = provider.loading
@@ -83,7 +83,8 @@ open class BrowserModel(
         viewModelScope.launch {
             this@BrowserModel.sort = sort
             desc = !desc
-            if (tv) provider.desc = desc
+            provider.desc = desc
+            provider.sortMode = sort
             val comp = if (sort == Medialibrary.SORT_LASTMODIFICATIONDATE) {
                 if (desc) descCompModifiedDate else descCompModifiedDate
             } else {
