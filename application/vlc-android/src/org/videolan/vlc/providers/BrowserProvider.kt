@@ -72,7 +72,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     private var discoveryJob : Job? = null
 
     private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
-    private var showAll = Settings.getInstance(context).getBoolean("browser_show_all_files", true)
+    private var showAll = Settings.getInstance(context).getBoolean("browser_show_all_files", false)
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = Medialibrary.getInstance()
@@ -192,7 +192,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     protected open suspend fun refreshImpl() {
         val files: MutableList<MediaLibraryItem> = filesFlow().mapNotNull { findMedia(it) }.toList() as MutableList<MediaLibraryItem>
-        dataset.value = files.apply { sortWith(descCompModifiedDate) }
+        dataset.value = files.apply { sortWith(ascComp) }
         computeHeaders(files)
         parseSubDirectories(files)
         loading.postValue(false)
@@ -217,7 +217,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }.buffer(Channel.UNLIMITED)
 
     open fun addMedia(media: MediaLibraryItem) {
-        comparator?.let { dataset.add(media, it) } ?: dataset.add(media)
+        //comparator?.let { dataset.add(media, it) } ?: dataset.add(media)
+        dataset.add(media)
     }
 
     open fun refresh() {

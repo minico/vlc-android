@@ -136,11 +136,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         addPlaylistFolderOnly.isVisible = adapter.mediaCount > 0
         val browserShowAllFiles = menu.findItem(R.id.browser_show_all_files)
         browserShowAllFiles.isVisible = true
-        browserShowAllFiles.isChecked = Settings.getInstance(requireActivity()).getBoolean("browser_show_all_files", true)
+        browserShowAllFiles.isChecked = Settings.getInstance(requireActivity()).getBoolean("browser_show_all_files", false)
 
         val browserShowHiddenFiles = menu.findItem(R.id.browser_show_hidden_files)
         browserShowHiddenFiles.isVisible = true
-        browserShowHiddenFiles.isChecked = Settings.getInstance(requireActivity()).getBoolean("browser_show_hidden_files", true)
+        browserShowHiddenFiles.isChecked = Settings.getInstance(requireActivity()).getBoolean("browser_show_hidden_files", false)
     }
 
     protected open fun defineIsRoot() = mrl == null
