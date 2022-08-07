@@ -618,6 +618,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         if (!isRootDirectory) {
             updateFab()
             UiTools.updateSortTitles(this)
+            swipeRefreshLayout.requestFocus();
         }
     }
 

@@ -164,7 +164,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
             vh.binding.root.nextFocusRightId = R.id.ml_menu_sortby_filename
         }
         if (position == 0 && isBookmark) {
-            vh.binding.root.requestFocus()
+            //vh.binding.root.requestFocus()
         }
     }
 

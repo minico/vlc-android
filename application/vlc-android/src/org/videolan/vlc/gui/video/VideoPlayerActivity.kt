@@ -882,9 +882,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             alertDialog = AlertDialog.Builder(this).create()
             alertDialog!!.setTitle("VLC 播放器")
             if (service!!.lastLength - service!!.lastTime < 3000) {
-                alertDialog!!.setMessage("\"" + intent.extras?.getString(PLAY_EXTRA_ITEM_TITLE) + "\"" + " 播放结束")
+                alertDialog!!.setMessage("\"" + intent.extras?.getString(PLAY_EXTRA_ITEM_TITLE) + "\"" + " \n播放结束")
             } else {
-                alertDialog!!.setMessage("\"" + intent.extras?.getString(PLAY_EXTRA_ITEM_TITLE) + "\"" + " 播放错误")
+                alertDialog!!.setMessage("\"" + intent.extras?.getString(PLAY_EXTRA_ITEM_TITLE) + "\"" + " \n播放错误")
             }
             alertDialog!!.setButton(
                 AlertDialog.BUTTON_NEUTRAL, "OK"
