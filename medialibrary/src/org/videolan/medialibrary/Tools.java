@@ -107,6 +107,46 @@ public class Tools {
         }
     }
 
+    public static String getLeftTimeString(long millis) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[剩余 ");
+
+        millis /= 1000;
+        int sec = (int) (millis % 60);
+        millis /= 60;
+        int min = (int) (millis % 60);
+        millis /= 60;
+        int hours = (int) millis;
+
+        if (hours > 0)
+            sb.append(hours).append("小时");
+        if (min > 0)
+            sb.append(min).append("分");
+        if (sec > 0)
+            sb.append(sec).append("秒");
+
+        //sb.append("]");
+        return sb.toString();
+    }
+
+    public static String getEndTimeString(long millis) {
+        StringBuilder sb = new StringBuilder();
+        //sb.append("[");
+        sb.append(", 将于 ");
+
+        millis /= 1000;
+        int sec = (int) (millis % 60);
+        millis /= 60;
+        int min = (int) (millis % 60);
+        millis /= 60;
+        int hours = (int) millis;
+
+        sb.append(TWO_DIGITS.get().format(hours)).append(':').append(TWO_DIGITS.get().format(min)).append(':').append(TWO_DIGITS.get().format(sec));
+        sb.append(" 结束]");
+
+        return sb.toString();
+    }
+
     public static String millisToString(long millis, boolean text, boolean seconds, boolean large) {
         StringBuilder sb = new StringBuilder();
         if (millis < 0) {
@@ -125,7 +165,7 @@ public class Tools {
             if (hours > 0)
                 sb.append(hours).append('h').append(large ? " " : "");
             if (min > 0)
-                sb.append(min).append("min").append(large ? " " : "");
+                sb.append(min).append("m").append(large ? " " : "");
             if ((seconds || sb.length() == 0) && sec > 0)
                 sb.append(sec).append("s").append(large ? " " : "");
         } else {
