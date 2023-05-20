@@ -97,7 +97,7 @@ dependencies {
     api "androidx.fragment:fragment:$rootProject.ext.androidxFragmentVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     testImplementation "org.robolectric:robolectric:4.3.1"
-
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
 }
 
 mavenPublish {

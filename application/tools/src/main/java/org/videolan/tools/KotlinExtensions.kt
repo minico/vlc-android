@@ -105,7 +105,7 @@ suspend fun Context.awaitAppIsForegroung(): Boolean {
 
 private fun ActivityManager.isAppForeground() = runningAppProcesses[0].importance <= RunningAppProcessInfo.IMPORTANCE_FOREGROUND
 
-@UseExperimental(ExperimentalContracts::class)
+@OptIn(ExperimentalContracts::class)
 fun String?.isValidUrl(): Boolean {
     contract {
         returns(true) implies (this@isValidUrl != null)
